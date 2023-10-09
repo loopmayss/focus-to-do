@@ -52,10 +52,10 @@ class LogIn:
                 
         return {}, False
 
-    def menu(self):
+    def main_menu(self):
         print("\t\tGET STARTED :)")
         print("\t\t______________\n")
-        print("\t\t⭐️ FOCUS TO-DO ⭐️\n\n")
+        print("\t\t📒 FOCUS TO-DO 📒\n\n")
         print("\t\t1. 👤 Log In")
         print("\t\t2. 👔 Register")
         print("\t\t3. 🚪 Exit\n")
@@ -67,13 +67,13 @@ class LogIn:
                 break
             else :
                 print("Invalid Option :(\n")
-    
+      
     def log_in(self):
         register = Register()
         
         while self.option != 0:
             clear_console()
-            self.menu()
+            self.main_menu()
             clear_console()
             
             if self.option == 1:
@@ -116,5 +116,6 @@ class LogIn:
                 time.sleep(2)
                 break
 
-    def 
+   
+        
 
