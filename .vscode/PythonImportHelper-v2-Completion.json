@@ -115,7 +115,7 @@
         "kind": 6,
         "importPath": "user_auth.log_in",
         "description": "user_auth.log_in",
-        "peekOfCode": "class LogIn:\n    def __init__(self):\n        self.email = \"\"\n        self.password = \"\"\n        self.option = -1\n        self.accounts_personal_student = {}\n        self.accounts_professional  = {}\n        self.user_data_list = []\n    def load_data_accounts_personal_or_student(self, email_user, password_user):\n        user_data_list = []",
+        "peekOfCode": "class LogIn:\n    def __init__(self):\n        self.option = -1\n        self.accounts_personal_student = {}\n        self.accounts_professional  = {}\n    def load_data_accounts_personal_or_student(self, email_user, password_user):\n        with open(\"user_database/users_personal_or_student.txt\", \"r\") as file:\n            for line in file:\n                id_user, name, lastname, email, password, account_type, birthdate, country = line.rstrip().split(\"|\")\n                if email == email_user and password == password_user:",
         "detail": "user_auth.log_in",
         "documentation": {}
     },
@@ -124,7 +124,7 @@
         "kind": 2,
         "importPath": "user_auth.log_in",
         "description": "user_auth.log_in",
-        "peekOfCode": "def clear_console():\n    os.system('cls' if os.name == 'nt' else 'clear')\nclass LogIn:\n    def __init__(self):\n        self.email = \"\"\n        self.password = \"\"\n        self.option = -1\n        self.accounts_personal_student = {}\n        self.accounts_professional  = {}\n        self.user_data_list = []",
+        "peekOfCode": "def clear_console():\n    os.system('cls' if os.name == 'nt' else 'clear')\nclass LogIn:\n    def __init__(self):\n        self.option = -1\n        self.accounts_personal_student = {}\n        self.accounts_professional  = {}\n    def load_data_accounts_personal_or_student(self, email_user, password_user):\n        with open(\"user_database/users_personal_or_student.txt\", \"r\") as file:\n            for line in file:",
         "detail": "user_auth.log_in",
         "documentation": {}
     },
