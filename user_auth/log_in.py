@@ -55,10 +55,10 @@ class LogIn:
     def menu(self):
         print("\t\tGET STARTED :)")
         print("\t\t______________\n")
-        print("\t\tFOCUS TO-DO\n\n")
-        print("\t\t[1]: Log In")
-        print("\t\t[2]: Register")
-        print("\t\t[3]: Exit\n")
+        print("\t\t⭐️ FOCUS TO-DO ⭐️\n\n")
+        print("\t\t1. 👤 Log In")
+        print("\t\t2. 👔 Register")
+        print("\t\t3. 🚪 Exit\n")
         
         while True:
             self.option = int(input("\t\tOption: "))
@@ -78,10 +78,10 @@ class LogIn:
             
             if self.option == 1:
                 
-                print("\t\tLOG IN")
+                print("\t\t🏠 LOG IN")
                 print("\t\t__________\n\n")
-                email = input("\t\tEmail: ")
-                password = input("\t\tPassword: ")
+                email = input("\t\t📧 Email: ")
+                password = input("\t\t🔐 Password: ")
                 
                 validator = email[-7:]
                 
@@ -89,8 +89,8 @@ class LogIn:
                     accounts, flag = self.load_data_accounts_professional(email, hashlib.sha256(password.encode()).hexdigest())
                     if flag:
                         print("\n\n")
-                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)\n")
-                        print("\t\tEnjoy organizing your tasks with Focus To-Do ========>")
+                        print(f"\t\t😀 WELCOME, {accounts[email]['name']} {accounts[email]['lastname']} ✅\n")
+                        print("\t\t👉 Enjoy organizing your tasks with Focus To-Do ⏩⏩⏩⏩ ✌")
                         time.sleep(7)
                     else:
                         print("\t\tEmail or Password is incorrect :(")
@@ -99,8 +99,8 @@ class LogIn:
                     accounts, flag = self.load_data_accounts_personal_or_student(email, hashlib.sha256(password.encode()).hexdigest())
                     if flag:
                         print("\n\n")
-                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)\n")
-                        print("\t\tEnjoy organizing your tasks with Focus To-Do ========>")
+                        print(f"\t\t😀 WELCOME, {accounts[email]['name']} {accounts[email]['lastname']} ✅\n")
+                        print("\t\t👉 Enjoy organizing your tasks with Focus To-Do ⏩⏩⏩⏩ ✌")
                         time.sleep(7)
                     else:
                         print("\t\tEmail or Password is incorrect :(")
@@ -116,5 +116,5 @@ class LogIn:
                 time.sleep(2)
                 break
 
-
+    def 
 
