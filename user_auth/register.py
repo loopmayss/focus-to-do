@@ -8,27 +8,13 @@ class Register:
     def __init__(self):
         self.id_personal_or_student = 0
         self.id_professional = 0
-        self.accounts_personal_or_student = {}
-        self.accounts_professional = {}
+        #self.accounts_personal_or_student = {}
+        #self.accounts_professional = {}
     
     def save_data(self, filename, data):
         with open(filename, 'a') as file:
             file.write(data)
-    
-    def load_data_accounts_personal_or_student(self):
-        with open("user_database/users_personal_or_student.txt", "r") as file:
-            for line in file:
-                id_user, name, lastname, email, password, account_type, birthdate, country = line.rstrip().split("|")
-                self.accounts[email] = {
-                    'id': id_user,
-                    'name': name,
-                    'lastname': lastname,
-                    'password': password,
-                    'account_type': account_type,
-                    'birthdate': birthdate,
-                    'country': country
-                }
-        
+                           
     def load_data_user_personal_or_student(self):
         try:
             with open("user_database/users_personal_or_student.txt", 'r') as file:
@@ -136,15 +122,15 @@ class Register:
         
         self.id_personal_or_student += 1
         
-        self.accounts_personal_or_student[email] = {
-            'id': self.id_personal_or_student,
-            'name': name,
-            'lastname': lastname,
-            'password': password,
-            'account_type': account_type,
-            'birthdate': birthdate,
-            'country': country
-        }
+        # self.accounts_personal_or_student[email] = {
+        #     'id': self.id_personal_or_student,
+        #     'name': name,
+        #     'lastname': lastname,
+        #     'password': password,
+        #     'account_type': account_type,
+        #     'birthdate': birthdate,
+        #     'country': country
+        # }
         
         user = StudentPersonal(self.id_personal_or_student, name, lastname, email, password, account_type, birthdate, country)        
         return user    
@@ -156,6 +142,16 @@ class Register:
         charge = input("Charge: ")     
         
         self.id_professional += 1  
+        
+        # self.accounts_professional[email] = {
+        #     'id': self.id_professional,
+        #     'name': name,
+        #     'lastname': lastname,
+        #     'password': password,
+        #     'account_type': account_type,
+        #     'company': company,
+        #     'charge': charge
+        # }
         
         user = Professional(self.id_professional, name, lastname, email, password, account_type, company, charge) 
         return user    
@@ -210,6 +206,9 @@ class Register:
         
         self.register_account(account_type, user)   
         
-    def get_accounts(self):
-        return self.accounts  
+    def get_accounts_personal_student(self):
+        return self.accounts_personal_or_student
+    
+    def get_accounts_professional(self):
+        return self.accounts_professional  
         

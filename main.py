@@ -1,8 +1,5 @@
-from user_auth.register import Register
+from user_auth.log_in import LogIn
 
-register = Register()
-register.load_data_user_personal_or_student()
-register.load_data_user_professional()
-
-register.ask_for_information()
+login = LogIn()
+login.main_sreen()
 
