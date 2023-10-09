@@ -1,0 +1,4 @@
+1|Leidy|Gomero|leidy@gmail.com|dc111e47f09ebd42193a618c622669edb46034ffde8aa6b4c371a45ad543072b|1|2001-12-30|Peru
+2|Melanie|Cruz|melanie@ucv.edu.pe|446ebb30265962eae226c80126948662b18b64bde2fca6343e09b96c12ffb081|2|2004-07-28|Peru
+3|Andres|Gonzales|andres@gmail.com|00447c9fa1d6b56e44d6fa547e5dd7d6355e9102d23c7e16ce7cc34e879e1348|1|2001-06-21|Peru
+4|Lucas|Marcelo|lucas@pucp.edu.pe|3228ab00c8f9c9576beac22a8671f7ec26a44427615f3edb260914d9ce53f6ed|2|1999-01-15|Peru

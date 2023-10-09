@@ -1,0 +1,4 @@
+1|Hugo|Merino|pcmerino@bank.com.pe|c151384ac657e69368d7247a76e926ab0da0e18e1dedf4d9319d76a366f0ccf8|3|City Bank|Jefe de Proyectos
+2|Ana|Armas|ana@bank.com.pe|46340941de63b32ec05a09419b0485e828c0d3427e305bebc67dd3eb2e392242|3|BCP|Jefa de Proyectos UX
+3|Jorge|Delgado|jorge@bbva.com.pe|1f296ba90e535cd28d5076ad018118d95892bd4e37f5d75d20910b440ca2fc89|3|BBVA|Administrativo Comercial
+4|Jose|Cardenas|jose@bpc.com.pe|d7ad72fcbb91ef1f579be15e1b11dec90529106c90ea1a7deeec373df90686eb|3|BCP|Jefe de Ventas

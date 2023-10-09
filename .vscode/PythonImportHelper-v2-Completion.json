@@ -1,0 +1,149 @@
+[
+    {
+        "label": "Account",
+        "importPath": "users.account",
+        "description": "users.account",
+        "isExtraImport": true,
+        "detail": "users.account",
+        "documentation": {}
+    },
+    {
+        "label": "Account",
+        "importPath": "users.account",
+        "description": "users.account",
+        "isExtraImport": true,
+        "detail": "users.account",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "datetime",
+        "description": "datetime",
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "hashlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hashlib",
+        "description": "hashlib",
+        "detail": "hashlib",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "Register",
+        "importPath": "user_auth.register",
+        "description": "user_auth.register",
+        "isExtraImport": true,
+        "detail": "user_auth.register",
+        "documentation": {}
+    },
+    {
+        "label": "Register",
+        "importPath": "user_auth.register",
+        "description": "user_auth.register",
+        "isExtraImport": true,
+        "detail": "user_auth.register",
+        "documentation": {}
+    },
+    {
+        "label": "Professional",
+        "importPath": "users.professional",
+        "description": "users.professional",
+        "isExtraImport": true,
+        "detail": "users.professional",
+        "documentation": {}
+    },
+    {
+        "label": "StudentPersonal",
+        "importPath": "users.student_personal",
+        "description": "users.student_personal",
+        "isExtraImport": true,
+        "detail": "users.student_personal",
+        "documentation": {}
+    },
+    {
+        "label": "Account",
+        "kind": 6,
+        "importPath": "users.account",
+        "description": "users.account",
+        "peekOfCode": "class Account:\n    def __init__ (self, id_user, name, lastname, email, password, account_type):\n        self.id = id_user\n        self.name = name\n        self.lastname = lastname\n        self.email = email\n        self.password = password\n        self.account_type = account_type\n    def get_id(self):\n        return self.id",
+        "detail": "users.account",
+        "documentation": {}
+    },
+    {
+        "label": "Professional",
+        "kind": 6,
+        "importPath": "users.professional",
+        "description": "users.professional",
+        "peekOfCode": "class Professional(Account):\n    def __init__(self, id_user, name, lastname, email, password, account_type, company, charge):\n        super().__init__(id_user, name, lastname, email, password, account_type)\n        self.company = company\n        self.charge = charge\n    def get_company(self):\n        return self.company\n    def get_charge(self):\n        return self.charge\n    def set_company(self, company):",
+        "detail": "users.professional",
+        "documentation": {}
+    },
+    {
+        "label": "StudentPersonal",
+        "kind": 6,
+        "importPath": "users.student_personal",
+        "description": "users.student_personal",
+        "peekOfCode": "class StudentPersonal(Account):\n    def __init__(self, id_user, name, lastname, email, password, account_type, birthdate, country):\n        super().__init__(id_user, name, lastname, email, password, account_type)\n        self.birthdate = birthdate\n        self.country =  country\n    def get_birthdate(self):\n        return self.birthdate\n    def get_country(self):\n        return self.country\n    def set_birthdate(self, birthdate):",
+        "detail": "users.student_personal",
+        "documentation": {}
+    },
+    {
+        "label": "LogIn",
+        "kind": 6,
+        "importPath": "user_auth.log_in",
+        "description": "user_auth.log_in",
+        "peekOfCode": "class LogIn:\n    def __init__(self):\n        self.email = \"\"\n        self.password = \"\"\n        self.option = -1\n        self.accounts = {}\n    def menu(self):\n        print(\"\\t\\tGET STARTED :)\")\n        print(\"\\t\\t_______________\")\n        print(\"\\t\\tFOCUS TO-DO\\n\\n\")",
+        "detail": "user_auth.log_in",
+        "documentation": {}
+    },
+    {
+        "label": "clear_console",
+        "kind": 2,
+        "importPath": "user_auth.log_in",
+        "description": "user_auth.log_in",
+        "peekOfCode": "def clear_console():\n    os.system('cls' if os.name == 'nt' else 'clear')\nclass LogIn:\n    def __init__(self):\n        self.email = \"\"\n        self.password = \"\"\n        self.option = -1\n        self.accounts = {}\n    def menu(self):\n        print(\"\\t\\tGET STARTED :)\")",
+        "detail": "user_auth.log_in",
+        "documentation": {}
+    },
+    {
+        "label": "Register",
+        "kind": 6,
+        "importPath": "user_auth.register",
+        "description": "user_auth.register",
+        "peekOfCode": "class Register:  \n    def __init__(self):\n        self.id_personal_or_student = 0\n        self.id_professional = 0\n        self.accounts_personal_or_student = {}\n        self.accounts_professional = {}\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:\n            file.write(data)\n    def load_data_accounts_personal_or_student(self):",
+        "detail": "user_auth.register",
+        "documentation": {}
+    },
+    {
+        "label": "register",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "register = Register()\nregister.load_data_user_personal_or_student()\nregister.load_data_user_professional()\nregister.ask_for_information()",
+        "detail": "main",
+        "documentation": {}
+    }
+]
