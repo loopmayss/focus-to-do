@@ -1,47 +1,80 @@
 import datetime
 import os
+import time
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 class Functionalities:
-    def __init__(self, option, accounts, email):
+    def __init__(self, accounts, email):
         self.email = email
-        self.option = option
         self.accounts = accounts
+        self.option = 0
+        self.id_task = 0
 
     def save_data(self, filename, data):
         with open(filename, 'a') as file:
             file.write(data)
     
+    def load_data_tasks_personal_or_student(self):
+        try:
+            with open("user_database/tasks_personal_or_student.txt", 'r') as file:
+                lines = file.readlines()
+                if lines:
+                    last_line = lines[-1].rstrip("\n")
+                    self.id_task = int(last_line.split("|")[1])
+                else:
+                    self.id_task = 0
+                    
+        except FileNotFoundError:
+            self.id_task = 0
+    
     def header(self):
         print("\n\t\t📒 Focus TO-DO 📒\n")
-        print(f"👦 {self.accounts[self.email]['name']} {self.accounts[self.email]['lastname']}\n\n")
+        print(f"\t\t👦 {self.accounts[self.email]['name']} {self.accounts[self.email]['lastname']}\n\n")
     
+    def get_option(self):
+        return self.option
+
     def features_menu(self):
-     self.header()
-     print("\t\t1. 🚀 MY DAY")
-     print("\t\t2. ⭐️ IMPORTANT")
-     print("\t\t3. 📑 TASKS")
-     print("\t\t4. 📚 NEW LIST")
-     print("\t\t5. 🚶 EXIT")
-     
-     while(True):
-         self.option = int(input("⏩ OPTION: "))
-         
-         if self.option >= 1 and self.option <= 5:
-             break
-         else :
-             print("Invalid Option :(\n")
+        while self.option != 5:
+            clear_console()
+            self.header()
+            print("\t\t1. 🚀 MY DAY")
+            print("\t\t2. ⭐️ IMPORTANT")
+            print("\t\t3. 📑 TASKS")
+            print("\t\t4. 📚 NEW LIST")
+            print("\t\t5. 🚶 EXIT")
+            
+            while(True):
+                self.option = int(input("\t\t⏩ OPTION: "))
+                
+                if self.option >= 1 and self.option <= 5:
+                    break
+                else :
+                    print("\t\tInvalid Option :(\n")
+            
+            if self.option == 1:
+                self.option = 0
+                self.my_day_menu()
+            elif self.option == 5:
+                break
    
     def my_day_menu(self):
-        self.header()
-        print("\t\t🚀 MY DAY\n\n")
-        print("\t\t1. ➕ Add Task")
-        print("\t\t2. 👀 View Tasks")
-        print("\t\t3. 🚶 Exit")
-        print("-----------------------\n\n")
-        self.option = int(input("⏩ OPTION: "))
+        while self.option != 3:
+            clear_console()
+            self.header()
+            print("\t\t🚀 MY DAY\n\n")
+            print("\t\t1. ➕ Add Task")
+            print("\t\t2. 👀 View Tasks")
+            print("\t\t3. 🚶 Exit")
+            print("\t\t-----------------------\n\n")
+            self.option = int(input("\t\t⏩ OPTION: "))
+            
+            if self.option == 1:
+                self.my_day_functionality()
+            elif self.option == 3:
+                break
    
     def validate_date(self):
         def validate_year(year):
@@ -69,17 +102,17 @@ class Functionalities:
                     return False
 
         while(True):
-            year = int(input("Year: "))
+            year = int(input("\t\tYear: "))
             if validate_year(year):
                 break
         
         while(True):
-            month = int(input("Month: "))
+            month = int(input("\t\tMonth: "))
             if validate_month(month):
                 break
         
         while(True): 
-            day = int(input("Day: "))
+            day = int(input("\t\tDay: "))
             if validate_day(day, month):
                 break
         
@@ -102,12 +135,12 @@ class Functionalities:
         
         time = ""
         while(True):
-            hour = int(input("Hour: "))
+            hour = int(input("\t\tHour: "))
             if validate_hour(hour):
                 break
             
         while(True):
-            minute = int(input("Minute: "))
+            minute = int(input("\t\tMinute: "))
             if validate_minute(minute):
                 break
         
@@ -119,16 +152,15 @@ class Functionalities:
             
         return time
    
-   
     def due_date_task(self):
         due_date = "none-none-none"
         print("\n\n")
         print("\t\t📆 Due \n")
-        print("1. TODAY")
-        print("2. TOMORROW")
-        print("3. NEXT WEEK")
-        print("4. PICK a DATE")
-        self.option = int(input("⏩ OPTION: "))
+        print("\t\t1. TODAY")
+        print("\t\t2. TOMORROW")
+        print("\t\t3. NEXT WEEK")
+        print("\t\t4. PICK a DATE")
+        self.option = int(input("\t\t⏩ OPTION: "))
         
         current_date = datetime.datetime.now().date()
         
@@ -147,15 +179,15 @@ class Functionalities:
         reminder = "none, none"
         print("\n\n")
         print("\t\t⏰ Reminder \n")
-        print("1. LATER TODAY")
-        print("2. TOMORROW")
-        print("3. NEXT WEEK")
-        print("4. PICK a DATE & TIME")
-        self.option = int(input("⏩ OPTION: "))
+        print("\t\t1. LATER TODAY")
+        print("\t\t2. TOMORROW")
+        print("\t\t3. NEXT WEEK")
+        print("\t\t4. PICK a DATE & TIME")
+        self.option = int(input("\t\t⏩ OPTION: "))
         
         current_time = datetime.datetime.now().time()
         new_time = datetime.datetime.combine(datetime.date.today(), current_time) + datetime.timedelta(hours=3)
-        date = datetime.date.today
+        date = datetime.date.today()
         if self.option == 1:
             reminder = f"{new_time.hour:02d}:{new_time.minute:02d}"
         elif self.option == 2:
@@ -176,12 +208,12 @@ class Functionalities:
         repeat = "none"
         print("\n\n")
         print("\t\t⭕ Repeat \n")
-        print("1. DAILY")
-        print("2. WEEKDAYS")
-        print("3. WEEKLY")
-        print("4. MONTHLY")
-        print("4. YEARLY")
-        self.option = int(input("⏩ OPTION: "))
+        print("\t\t1. DAILY")
+        print("\t\t2. WEEKDAYS")
+        print("\t\t3. WEEKLY")
+        print("\t\t4. MONTHLY")
+        print("\t\t4. YEARLY")
+        self.option = int(input("\t\t⏩ OPTION: "))
         
         if self.option == 1:
             repeat = "Daily"
@@ -197,43 +229,41 @@ class Functionalities:
         return repeat
    
     def my_day_functionality(self):
+                
+        task_description = "none"
+        answer = "none"
+        due_date = "none-none-none"
+        reminder = "none, none"
+        repeat = "none"
         
-        while self.option != 3:
-            self.my_day_menu()
+        print("\n\n\t\t➕ Add Task\n")
+        task_description = input("\t\tAdd a task: ")
+        answer = input("\t\tAdd due date? [Yes:y / No:n]: ").lower()
         
-            if self.option == 1:
-                self.header()
-                
-                task_description = "none"
-                answer = "none"
-                due_date = "none-none-none"
-                reminder = "none, none"
-                repeat = "none"
-                
-                print("\t\t➕ Add Task\n")
-                task_description = input("\t\tAdd a task: ")
-                answer = input("\t\tAdd due date? [Yes:y / No:n]: ").lower()
-                
-                if answer == "y":
-                    due_date = self.due_date_task()  
-                else:
-                    due_date = "NULL-NULL-NULL"
-                
-                answer = input("\n\n\t\tDo you want a reminder? [Yes:y / No:n]: ").lower()
-                
-                if answer == "y":
-                    reminder = self.reminder_task()
-                else:
-                    reminder = "NULL, NULL"
-                    
-                answer = input("\n\n\t\tDo you want the task to be repeated? [Yes:y / No:n]: ").lower()
-
-                if answer == "y":
-                    repeat = self.repeat_task()
-                else:
-                    repeat = "none"
-                
-                answer = input("\n\n\t\tCreate task? [Yes:y / No:n]: ").lower()
-
-                if answer == "y":
-                    pass
+        if answer == "y":
+            due_date = self.due_date_task()  
+        else:
+            due_date = "NULL-NULL-NULL"
+        
+        answer = input("\n\n\t\tDo you want a reminder? [Yes:y / No:n]: ").lower()
+        
+        if answer == "y":
+            reminder = self.reminder_task()
+        else:
+            reminder = "NULL, NULL"
+            
+        answer = input("\n\n\t\tDo you want the task to be repeated? [Yes:y / No:n]: ").lower()
+        if answer == "y":
+            repeat = self.repeat_task()
+        else:
+            repeat = "none"
+        
+        answer = input("\n\n\t\tCreate task? [Yes:y / No:n]: ").lower()
+        if answer == "y":
+            #self.load_data_tasks_personal_or_student()
+            self.id_task += 1
+            filename = "user_database/tasks_personal_or_student.txt"
+            data = f"{self.accounts[self.email]['id']}|{self.id_task}|{task_description}|{due_date}|{reminder}|{repeat}\n"
+            self.save_data(filename, data)
+            print("\t\tTask created ✅")
+            time.sleep(2)

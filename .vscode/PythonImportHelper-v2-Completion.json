@@ -18,6 +18,15 @@
         "documentation": {}
     },
     {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
         "label": "Account",
         "importPath": "users.account",
         "description": "users.account",
@@ -43,20 +52,19 @@
         "documentation": {}
     },
     {
-        "label": "time",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "time",
-        "description": "time",
-        "detail": "time",
-        "documentation": {}
-    },
-    {
         "label": "Register",
         "importPath": "user_auth.register",
         "description": "user_auth.register",
         "isExtraImport": true,
         "detail": "user_auth.register",
+        "documentation": {}
+    },
+    {
+        "label": "Functionalities",
+        "importPath": "focus_todo.functionalities",
+        "description": "focus_todo.functionalities",
+        "isExtraImport": true,
+        "detail": "focus_todo.functionalities",
         "documentation": {}
     },
     {
@@ -88,7 +96,7 @@
         "kind": 6,
         "importPath": "focus_todo.functionalities",
         "description": "focus_todo.functionalities",
-        "peekOfCode": "class Functionalities:\n    def __init__(self, option, accounts, email):\n        self.email = email\n        self.option = option\n        self.accounts = accounts\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:\n            file.write(data)\n    def header(self):\n        print(\"\\n\\t\\t📒 Focus TO-DO 📒\\n\")",
+        "peekOfCode": "class Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:\n            file.write(data)\n    def load_data_tasks_personal_or_student(self):",
         "detail": "focus_todo.functionalities",
         "documentation": {}
     },
@@ -97,7 +105,7 @@
         "kind": 2,
         "importPath": "focus_todo.functionalities",
         "description": "focus_todo.functionalities",
-        "peekOfCode": "def clear_console():\n    os.system('cls' if os.name == 'nt' else 'clear')\nclass Functionalities:\n    def __init__(self, option, accounts, email):\n        self.email = email\n        self.option = option\n        self.accounts = accounts\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:\n            file.write(data)",
+        "peekOfCode": "def clear_console():\n    os.system('cls' if os.name == 'nt' else 'clear')\nclass Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:",
         "detail": "focus_todo.functionalities",
         "documentation": {}
     },

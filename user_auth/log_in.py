@@ -2,6 +2,8 @@ import os
 import hashlib
 import time
 from user_auth.register import Register
+from focus_todo.functionalities import Functionalities
+
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -92,6 +94,15 @@ class LogIn:
                         print(f"\t\t😀 WELCOME, {accounts[email]['name']} {accounts[email]['lastname']} ✅\n")
                         print("\t\t👉 Enjoy organizing your tasks with Focus To-Do ⏩⏩⏩⏩ ✌")
                         time.sleep(7)
+                        
+                        clear_console()
+                        functionalities = Functionalities(accounts, email)
+                        functionalities.features_menu()
+                        
+                        if functionalities.get_option() == 5:
+                            print("\n\n\t\tReturning to the main screen ...\n\n")
+                            time.sleep(3)
+                        
                     else:
                         print("\t\tEmail or Password is incorrect :(")
                         time.sleep(4)
@@ -102,6 +113,14 @@ class LogIn:
                         print(f"\t\t😀 WELCOME, {accounts[email]['name']} {accounts[email]['lastname']} ✅\n")
                         print("\t\t👉 Enjoy organizing your tasks with Focus To-Do ⏩⏩⏩⏩ ✌")
                         time.sleep(7)
+                        
+                        clear_console()
+                        functionalities = Functionalities(accounts, email)
+                        functionalities.features_menu()
+                        
+                        if functionalities.get_option() == 5:
+                            print("\n\n\t\tReturning to the main screen ...\n\n")
+                            time.sleep(3)
                     else:
                         print("\t\tEmail or Password is incorrect :(")
                         time.sleep(4)
