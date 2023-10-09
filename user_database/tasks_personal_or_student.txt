@@ -1,1 +1,3 @@
 6|1|Study with friends|2023-10-10|Tuesday, 14|Weekdays
+6|2|Read a book|2023-10-16|2007-10-10, 11:30|Monthly
+5|1|Study with sister|2023-10-09|14:59|Weekdays

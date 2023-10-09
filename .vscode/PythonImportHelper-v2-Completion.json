@@ -96,7 +96,7 @@
         "kind": 6,
         "importPath": "focus_todo.functionalities",
         "description": "focus_todo.functionalities",
-        "peekOfCode": "class Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:\n            file.write(data)\n    def load_data_tasks_personal_or_student(self):",
+        "peekOfCode": "class Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:\n            file.write(data)\n    def load_data_tasks_personal_or_student(self, user_id):",
         "detail": "focus_todo.functionalities",
         "documentation": {}
     },

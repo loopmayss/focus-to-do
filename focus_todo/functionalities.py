@@ -16,13 +16,18 @@ class Functionalities:
         with open(filename, 'a') as file:
             file.write(data)
     
-    def load_data_tasks_personal_or_student(self):
+    def load_data_tasks_personal_or_student(self, user_id):
         try:
             with open("user_database/tasks_personal_or_student.txt", 'r') as file:
                 lines = file.readlines()
                 if lines:
-                    last_line = lines[-1].rstrip("\n")
-                    self.id_task = int(last_line.split("|")[1])
+                    user_lines = [line for line in lines if line.startswith(f"{user_id}|")]
+                    
+                    if user_lines:
+                        last_line = user_lines[-1].rstrip("\n")
+                        self.id_task = int(last_line.split("|")[1])
+                    else:
+                        self.id_task = 0
                 else:
                     self.id_task = 0
                     
@@ -78,7 +83,7 @@ class Functionalities:
    
     def validate_date(self):
         def validate_year(year):
-            if year <= 2008 :
+            if year <= 2023 :
                 return True
             else:
                 return False
@@ -198,6 +203,7 @@ class Functionalities:
             reminder = f"{new_day.strftime('%A')}, {new_time.hour:02d}"
         else:
             custom_date = self.validate_date()
+            print("\n\n")
             custom_time = self.validate_hour_and_minute()
             
             reminder = f"{custom_date}, {custom_time}"
@@ -212,7 +218,7 @@ class Functionalities:
         print("\t\t2. WEEKDAYS")
         print("\t\t3. WEEKLY")
         print("\t\t4. MONTHLY")
-        print("\t\t4. YEARLY")
+        print("\t\t5. YEARLY")
         self.option = int(input("\t\t⏩ OPTION: "))
         
         if self.option == 1:
@@ -260,7 +266,7 @@ class Functionalities:
         
         answer = input("\n\n\t\tCreate task? [Yes:y / No:n]: ").lower()
         if answer == "y":
-            #self.load_data_tasks_personal_or_student()
+            self.load_data_tasks_personal_or_student(self.accounts[self.email]['id'])
             self.id_task += 1
             filename = "user_database/tasks_personal_or_student.txt"
             data = f"{self.accounts[self.email]['id']}|{self.id_task}|{task_description}|{due_date}|{reminder}|{repeat}\n"
