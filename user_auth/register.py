@@ -8,8 +8,6 @@ class Register:
     def __init__(self):
         self.id_personal_or_student = 0
         self.id_professional = 0
-        #self.accounts_personal_or_student = {}
-        #self.accounts_professional = {}
     
     def save_data(self, filename, data):
         with open(filename, 'a') as file:
@@ -121,16 +119,6 @@ class Register:
         birthdate = datetime.date(year, month, day)
         
         self.id_personal_or_student += 1
-        
-        # self.accounts_personal_or_student[email] = {
-        #     'id': self.id_personal_or_student,
-        #     'name': name,
-        #     'lastname': lastname,
-        #     'password': password,
-        #     'account_type': account_type,
-        #     'birthdate': birthdate,
-        #     'country': country
-        # }
         
         user = StudentPersonal(self.id_personal_or_student, name, lastname, email, password, account_type, birthdate, country)        
         return user    
