@@ -68,7 +68,7 @@ class LogIn:
             else :
                 print("Invalid Option :(\n")
     
-    def main_sreen(self):
+    def log_in(self):
         register = Register()
         
         while self.option != 0:
@@ -88,7 +88,9 @@ class LogIn:
                 if validator == ".com.pe":
                     accounts, flag = self.load_data_accounts_professional(email, hashlib.sha256(password.encode()).hexdigest())
                     if flag:
-                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)")
+                        print("\n\n")
+                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)\n")
+                        print("\t\tEnjoy organizing your tasks with Focus To-Do ========>")
                         time.sleep(7)
                     else:
                         print("\t\tEmail or Password is incorrect :(")
@@ -96,7 +98,9 @@ class LogIn:
                 else:
                     accounts, flag = self.load_data_accounts_personal_or_student(email, hashlib.sha256(password.encode()).hexdigest())
                     if flag:
-                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)")
+                        print("\n\n")
+                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)\n")
+                        print("\t\tEnjoy organizing your tasks with Focus To-Do ========>")
                         time.sleep(7)
                     else:
                         print("\t\tEmail or Password is incorrect :(")
@@ -108,6 +112,9 @@ class LogIn:
                 register.ask_for_information()
                 time.sleep(2)
             else:
-                print("\t\tSee you later, we hope to see you soon :)")
+                print("\n\n\t\tSee you later, we hope to see you soon :)\n\n")
                 time.sleep(2)
                 break
+
+
+

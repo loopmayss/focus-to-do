@@ -142,7 +142,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "login = LogIn()\nlogin.main_sreen()",
+        "peekOfCode": "login = LogIn()\nlogin.log_in()",
         "detail": "main",
         "documentation": {}
     }
