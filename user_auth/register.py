@@ -131,16 +131,6 @@ class Register:
         
         self.id_professional += 1  
         
-        # self.accounts_professional[email] = {
-        #     'id': self.id_professional,
-        #     'name': name,
-        #     'lastname': lastname,
-        #     'password': password,
-        #     'account_type': account_type,
-        #     'company': company,
-        #     'charge': charge
-        # }
-        
         user = Professional(self.id_professional, name, lastname, email, password, account_type, company, charge) 
         return user    
     
@@ -193,10 +183,3 @@ class Register:
            user = self.additional_professional_information(name, lastname, email, hashlib.sha256(password.encode()).hexdigest(), account_type)
         
         self.register_account(account_type, user)   
-        
-    def get_accounts_personal_student(self):
-        return self.accounts_personal_or_student
-    
-    def get_accounts_professional(self):
-        return self.accounts_professional  
-        

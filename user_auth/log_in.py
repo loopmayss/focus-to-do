@@ -29,23 +29,28 @@ class LogIn:
                     }
                     
                     return self.accounts_personal_student, True
-
-                       
-    def load_data_accounts_professional(self):
+                
+        return {}, False
+                  
+    def load_data_accounts_professional(self, email_user, password_user):
         with open("user_database/users_professional.txt", "r") as file:
             for line in file:
                 id_user, name, lastname, email, password, account_type, company, charge = line.rstrip().split("|")
                 
-                self.accounts_professional[email] = {
-                    'id': id_user,
-                    'name': name,
-                    'lastname': lastname,
-                    'password': password,
-                    'account_type': account_type,
-                    'company': company,
-                    'charge': charge
-                }
-
+                if email == email_user and password == password_user:
+                    self.accounts_professional[email] = {
+                        'id': id_user,
+                        'name': name,
+                        'lastname': lastname,
+                        'password': password,
+                        'account_type': account_type,
+                        'company': company,
+                        'charge': charge
+                    }
+                    
+                    return self.accounts_professional, True
+                
+        return {}, False
 
     def menu(self):
         print("\t\tGET STARTED :)")
@@ -64,6 +69,7 @@ class LogIn:
                 print("Invalid Option :(\n")
     
     def main_sreen(self):
+        register = Register()
         
         while self.option != 0:
             clear_console()
@@ -80,37 +86,25 @@ class LogIn:
                 validator = email[-7:]
                 
                 if validator == ".com.pe":
-                    # if self.email in self.accounts_professional and self.accounts_professional[self.email]["password"] == hashlib.sha256(self.password.encode()).hexdigest():
-                    #     print(f"Welcome, {self.accounts_professional[self.email]['name']} {self.accounts_professional[self.email]['lastname']}")
-                    #     time.sleep(3)
-                    # else :
-                    #     print("\t\tEmail or Password is incorrect :(")
-                    #     time.sleep(3)
-                    pass
+                    accounts, flag = self.load_data_accounts_professional(email, hashlib.sha256(password.encode()).hexdigest())
+                    if flag:
+                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)")
+                        time.sleep(7)
+                    else:
+                        print("\t\tEmail or Password is incorrect :(")
+                        time.sleep(4)
                 else:
                     accounts, flag = self.load_data_accounts_personal_or_student(email, hashlib.sha256(password.encode()).hexdigest())
                     if flag:
-                        print("OK")
-                        print(f"\t\tWelcome, {accounts[email]['name']} {accounts[email]['lastname']}")
-                        time.sleep(6)
+                        print(f"\t\tWELCOME, {accounts[email]['name']} {accounts[email]['lastname']} :)")
+                        time.sleep(7)
                     else:
-                        print(":(")
-                        time.sleep(6)
-                    
-                    # self.load_data_accounts_personal_or_student(self.email, hashlib.sha256(self.password.encode()))
-                    
-                    # if self.email in self.accounts_personal_student and self.accounts_personal_student[self.email]["password"] == hashlib.sha256(self.password.encode()).hexdigest():
-                    #     print(f"\t\tWelcome, {self.accounts_personal_student[self.email]['name']} {self.accounts_personal_student[self.email]['lastname']}")
-                    #     time.sleep(3)
-                    # else :
-                    #     print("\t\tEmail or Password is incorrect :(")
-                    #     time.sleep(3)
-                        
+                        print("\t\tEmail or Password is incorrect :(")
+                        time.sleep(4)
+                               
             elif self.option == 2:
-                register = Register()
                 register.load_data_user_personal_or_student()
                 register.load_data_user_professional()
-                
                 register.ask_for_information()
                 time.sleep(2)
             else:
