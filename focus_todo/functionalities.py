@@ -77,9 +77,14 @@ class Functionalities:
                         reminder = new_reminder
                         repeat = new_repeat
                         
+                    elif option_selected == 4 :
+                        completed = 0
+                    elif option_selected == 5 :
+                        important = 0
 
                     modified_task = f"{user_id}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(modified_task)
+                    
                 else:
                     unmodified_task = f"{user_id}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(unmodified_task)
@@ -93,6 +98,7 @@ class Functionalities:
         try:
             while continue_view_task == "y":
                 clear_console()
+                self.header()
                 print("\n\t\t👀 View Tasks\n\n")
                 with open("user_database/tasks_personal_or_student.txt", "r") as file:
                     
@@ -101,14 +107,15 @@ class Functionalities:
                         
                         if tasks[0] == id_user:
                             task_id, task_description, due_date, reminder, repeat, important, completed = tasks[1:]
+                            current_date = datetime.datetime.now().date()
                             
-                            if completed == "0" :
+                            if completed == "0" and due_date == str(current_date):
                                 print(f"\t\t{task_id}|  ☐  {task_description} 👈")
                                 
-                                if important == "0" and completed == "0":
-                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ")
-                                elif important == "1" and completed == "0":
-                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
+                                if important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
                             
                             print("\n")   
                     
@@ -138,6 +145,112 @@ class Functionalities:
                         
         except   FileNotFoundError:
             print("\t\tThere are no pending tasks 📖")     
+            
+    def view_completed_task(self, id_user):
+        continue_view_task = "y"
+        
+        try:
+            while continue_view_task == "y":
+                clear_console()
+                self.header()
+                print("\t\t✅ View completed tasks\n\n")
+                
+                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                    for line in file:
+                        user_id, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")  
+                        
+                        if  user_id == str(id_user):
+                            if completed == "1" :
+                                print(f"\t\t{task_id}|  ✅  {description_task} 👈")
+                                    
+                                if important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ")
+                                elif important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
+                                
+                                print("\n")
+                                
+                    answer = input("\t\tUnmark tasks as completed? [Yes: y/ No: n]: ").lower()  
+                        
+                    if answer == "y":
+                        id_select_task = int(input("\n\n\t\tTask number: "))
+                            
+                        completed_task = input(f"\t\tMark task {id_select_task} as not completed? [Yes: y/ No: n]: ").lower()
+                        if completed_task == "y":
+                            self.modify_task(id_user, id_select_task, 4)
+                            print("\t\tUnchecked tasks ✔")
+                        continue_view_task = input("\n\n\t\tContinue seeing completed tasks? [Yes: y/ No: n]: ").lower()
+                    else:
+                        continue_view_task = "n"
+        
+        except   FileNotFoundError:
+            print("\t\tThere are no tasks completed 📖")    
+        
+    def view_important_task(self, id_user):
+        continue_view_task = "y"
+        
+        try:
+            while continue_view_task == "y":
+                clear_console()
+                self.header()
+                print("\t\t⭐️ IMPORTANT")
+                
+                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                    for line in file:
+                        user_id, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")  
+                        
+                        if  user_id == str(id_user):
+                            if important == "1" and completed == "0":
+                                print(f"\t\t{task_id}|  ☐  {description_task} 👈") 
+                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
+                                
+                                print("\n")
+                                
+                    answer = input("\t\tRemove importance of  the some task? [Yes: y/ No: n]: ").lower()  
+                        
+                    if answer == "y":
+                        id_select_task = int(input("\n\n\t\tTask number: "))
+                            
+                        important_task = input("\t\tRemove importance? [Yes: y/ No: n]: ").lower()
+                        if important_task == "y":
+                            self.modify_task(id_user, id_select_task, 5)
+                            print("\t\tImportance removed ✔")
+                        continue_view_task = input("\n\n\t\tContinue seeing important tasks? [Yes: y/ No: n]: ").lower()
+                    else:
+                        continue_view_task = "n"
+        
+        except   FileNotFoundError:
+            print("\t\tThere are no tasks important 📖")   
+    
+    def view_all_tasks(self):
+        continue_view_task = "y"
+        try:
+            while continue_view_task == "y":
+                clear_console()
+                self.header()
+                print("\t\t📑 TASKS")
+                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                    
+                    for line in file:
+                        tasks = line.rstrip().split("|")
+                        
+                        if tasks[0] == id_user:
+                            task_id, task_description, due_date, reminder, repeat, important, completed = tasks[1:]
+                            
+                            if completed == "0" :
+                                print(f"\t\t{task_id}|  ☐  {task_description} 👈")
+                                
+                                if important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ")
+                                elif important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
+                            
+                            print("\n")   
+                    
+                    continue_view_task = input("\t\tContinue seeing all pending tasks?? [Yes: y/ No: n]: ").lower()
+                        
+        except   FileNotFoundError:
+            print("\t\tThere are no pending tasks 📖")   
                
     def header(self):
         print("\n\t\t📒 Focus TO-DO 📒\n")
@@ -167,25 +280,39 @@ class Functionalities:
             if self.option == 1:
                 self.option = 0
                 self.my_day_menu()
+            elif self.option == 2:
+                self.view_important_task(self.accounts[self.email]['id'])
+            elif self.option == 3:
+                self.view_all_tasks()
             elif self.option == 5:
                 break
    
     def my_day_menu(self):
-        while self.option != 3:
+        while self.option != 4:
             clear_console()
             self.header()
             print("\t\t🚀 MY DAY\n\n")
             print("\t\t1. ➕ Add Task")
             print("\t\t2. 👀 View Tasks")
-            print("\t\t3. 🚶 Exit")
+            print("\t\t3. ✅ View completed tasks")
+            print("\t\t4. 🚶 Exit")
             print("\t\t-----------------------\n\n")
-            self.option = int(input("\t\t⏩ OPTION: "))
+            
+            while True:
+                self.option = int(input("\t\t⏩ OPTION: "))
+                
+                if self.option >= 1 and self.option <= 4:
+                    break
+                else:
+                    print("Option invalid :(")
             
             if self.option == 1:
                 self.create_task(1)
             elif self.option == 2:
                 self.load_data_tasks_personal_or_student(self.accounts[self.email]['id'])
             elif self.option == 3:
+                self.view_completed_task(self.accounts[self.email]['id'])
+            else:
                 break
    
     def validate_date(self):
