@@ -1,6 +1,7 @@
 import datetime
 import os
 import time
+#from main import login
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -11,12 +12,26 @@ class Functionalities:
         self.accounts = accounts
         self.option = 0
         self.id_task = 0
+        self.task_information = {}
 
     def save_data(self, filename, data):
         with open(filename, 'a') as file:
             file.write(data)
     
-    def load_data_tasks_personal_or_student(self, user_id):
+    def create_task(self, value):
+        task_description, due_date, reminder, repeat =  self.my_day_functionality(value)
+        
+        self.id_task += 1
+        filename = "user_database/tasks_personal_or_student.txt"
+        important = 0
+        completed = 0
+        
+        data = f"{self.accounts[self.email]['id']}|{self.id_task}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
+        self.save_data(filename, data)
+        print("\t\tTask created ✅")
+        time.sleep(2)
+    
+    def load_the_last_id(self, user_id):
         try:
             with open("user_database/tasks_personal_or_student.txt", 'r') as file:
                 lines = file.readlines()
@@ -34,6 +49,97 @@ class Functionalities:
         except FileNotFoundError:
             self.id_task = 0
     
+    def modify_task(self, id_user, id_task_user, option_selected):
+        tasks = []
+
+        with open("user_database/tasks_personal_or_student.txt", "r") as file:
+            for line in file:
+                task_data = line.strip().split("|")
+                user_id, task_id = int(task_data[0]), int(task_data[1])
+                
+                if user_id == id_user and task_id == id_task_user:
+                    if option_selected == 1:
+                        task_data[7] = "1"
+                    elif option_selected == 2:
+                        task_data[6] = "1"
+                    elif option_selected == 3:
+                        self.id_task = id_task_user
+                        
+                        self.task_information[task_id] = {
+                            'task_description': task_data[2],
+                            'due_date': task_data[3],
+                            'reminder': task_data[4],
+                            'repeat': task_data[5]
+                        }
+                        
+                        new_description_task, new_due_date, new_reminder, new_repeat = self.my_day_functionality(2)
+                        
+                        task_data[2] = new_description_task
+                        task_data[3] = new_due_date
+                        task_data[4] = new_reminder
+                        task_data[5] = new_repeat
+
+                    #modified_task = task_data[0] + "|" + task_data[1] + "|" + task_data[2] + "|" + task_data[3] + "|" + task_data[4] + "|" + task_data[5] + "|" + task_data[6] + "|" + task_data[7]
+                    modified_task = f"{task_data[0]}|{task_data[1]}|{task_data[2]}|{task_data[3]}|{task_data[4]}|{task_data[5]}|{task_data[6]}|{task_data[7]}"
+                    tasks.append(modified_task)
+                else:
+                    #unmodified_task = task_data[0] + "|" + task_data[1] + "|" + task_data[2] + "|" + task_data[3] + "|" + task_data[4] + "|" + task_data[5] + "|" + task_data[6] + "|" + task_data[7]
+                    unmodified_task = f"{task_data[0]}|{task_data[1]}|{task_data[2]}|{task_data[3]}|{task_data[4]}|{task_data[5]}|{task_data[6]}|{task_data[7]}"
+                    tasks.append(unmodified_task)
+
+        with open("user_database/tasks_personal_or_student.txt", "w") as file:
+            for task in tasks:
+                file.write(task + "\n")
+    
+    def load_data_tasks_personal_or_student(self, id_user):
+        continue_view_task = "y"
+        try:
+            while continue_view_task == "y":
+                clear_console()
+                print("\n\t\t👀 View Tasks\n\n")
+                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                    
+                    for line in file:
+                        tasks = line.rstrip().split("|")
+                        
+                        if tasks[0] == id_user:
+                            task_id, task_description, due_date, reminder, repeat, important, completed = tasks[1:]
+                            
+                            print(f"\t\t{task_id}|  ☐  {task_description} 👈")
+                            
+                            if important == 0 and completed == 0:
+                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ▪ ")
+                            elif important == 1 and completed == 0:
+                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ▪ ")
+                            
+                            print("\n")   
+                    
+                    answer = input("See task options? [Yes: y/ No: n]: ").lower()
+                    
+                    if answer == "y":
+                        id_select_task = int(input("\n\n\t\tTask number: "))
+                        
+                        completed_task = input(f"\t\tMark task {id_select_task} as completed? [Yes: y/ No: n]: ").lower()
+                        if completed_task == "y":
+                            self.modify_task(id_user, id_select_task, 1)
+                        
+                        
+                        important_task = input(f"\t\tMark task {id_select_task} as important? [Yes: y/ No: n]: ").lower()
+                        if important_task == "y":
+                            self.modify_task(id_user, id_select_task, 2)
+                            
+                        
+                        modify_task_option = input(f"\t\tModify task {id_select_task}? [Yes: y/ No: n]: ").lower()
+                        if modify_task_option == "y":
+                            self.modify_task(id_user, id_select_task, 3)
+                        
+                        continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+                    else:
+                        continue_view_task = "n"
+                        
+        except   FileNotFoundError:
+            print("\t\tThere are no pending tasks 📖")     
+               
     def header(self):
         print("\n\t\t📒 Focus TO-DO 📒\n")
         print(f"\t\t👦 {self.accounts[self.email]['name']} {self.accounts[self.email]['lastname']}\n\n")
@@ -77,16 +183,19 @@ class Functionalities:
             self.option = int(input("\t\t⏩ OPTION: "))
             
             if self.option == 1:
-                self.my_day_functionality()
+                self.create_task(1)
+            elif self.option == 2:
+                self.load_data_tasks_personal_or_student(self.accounts[self.email]['id'])
             elif self.option == 3:
                 break
    
     def validate_date(self):
+        
         def validate_year(year):
-            if year <= 2023 :
-                return True
-            else:
+            if year < 2023 :
                 return False
+            else:
+                return True
         
         def validate_month(month):
             if month >= 1 and month <= 12:
@@ -126,6 +235,7 @@ class Functionalities:
         return due_date
    
     def validate_hour_and_minute(self):
+        
         def validate_hour(hour):
             if hour >= 0 and hour <= 23:
                 return True
@@ -197,10 +307,10 @@ class Functionalities:
             reminder = f"{new_time.hour:02d}:{new_time.minute:02d}"
         elif self.option == 2:
             new_day = date + datetime.timedelta(days=1)
-            reminder = f"{new_day.strftime('%A')}, {new_time.hour:02d}"
+            reminder = f"{new_day.strftime('%A')}, 9:00"
         elif self.option == 3:
             new_day = date + datetime.timedelta(weeks=1)
-            reminder = f"{new_day.strftime('%A')}, {new_time.hour:02d}"
+            reminder = f"{new_day.strftime('%A')}, 9:00"
         else:
             custom_date = self.validate_date()
             print("\n\n")
@@ -234,42 +344,96 @@ class Functionalities:
         
         return repeat
    
-    def my_day_functionality(self):
-                
-        task_description = "none"
-        answer = "none"
-        due_date = "none-none-none"
-        reminder = "none, none"
-        repeat = "none"
+    def my_day_functionality(self, value):   
+        clear_console()    
+        self.header() 
+        answer = ""
         
-        print("\n\n\t\t➕ Add Task\n")
-        task_description = input("\t\tAdd a task: ")
-        answer = input("\t\tAdd due date? [Yes:y / No:n]: ").lower()
-        
-        if answer == "y":
-            due_date = self.due_date_task()  
+        if value == 1:
+            print("\n\n\t\t➕ Add Task\n\n")
         else:
-            due_date = "NULL-NULL-NULL"
-        
-        answer = input("\n\n\t\tDo you want a reminder? [Yes:y / No:n]: ").lower()
+            unmodified_task_description = self.task_information[self.id_task]['task_description']
+            unmodified_due_date = self.task_information[self.id_task]['due_date']
+            unmodified_reminder = self.task_information[self.id_task]['reminder']
+            unmodified_repeat = self.task_information[self.id_task]['repeat']
+            
+            print("\n\n\t\t☝ Modify Task\n\n")
+            
+        while True:
+            if value == 1:
+                task_description = input("\t\tAdd a task: ")
+                
+                if not task_description:
+                    print("\t\tPlease enter a task description.")
+                else:
+                    break
+                
+            else: 
+                task_description = input("\t\tTask [Enter: default value]: ")
+                
+                if not task_description:
+                    task_description = unmodified_task_description
+                
+       
+       
+        if value == 1:
+            answer = input("\t\tAdd due date? [Yes:y / No:n]: ").lower()
+            
+            if answer != "y":
+                due_date = "none-none-none"
+            
+        else:
+            answer = input("\t\tModify due date? [Yes:y / No:n]: ").lower()
+            
+            if answer != "y":
+                due_date = unmodified_due_date
+
+        if answer == "y":
+            due_date = self.due_date_task()
+            
+            
+            
+        if value == 1:
+            answer = input("\n\n\t\tDo you want a reminder? [Yes:y / No:n]: ").lower()
+            
+            if answer != "y":
+                reminder = "none, none"
+                
+        else: 
+            answer = input("\n\n\t\tModify reminder? [Yes:y / No:n]: ").lower()
+            
+            if answer != "y":
+                reminder = unmodified_reminder
         
         if answer == "y":
             reminder = self.reminder_task()
-        else:
-            reminder = "NULL, NULL"
+
+
+         
+        if value == 1:   
+            answer = input("\n\n\t\tDo you want the task to be repeated? [Yes:y / No:n]: ").lower()
             
-        answer = input("\n\n\t\tDo you want the task to be repeated? [Yes:y / No:n]: ").lower()
+            if answer != "y":
+                repeat = "none"
+        else:
+            answer = input("\n\n\t\tModify repeated? [Yes:y / No:n]: ").lower()
+            
+            if answer != "y":
+                repeat = unmodified_repeat
+        
         if answer == "y":
             repeat = self.repeat_task()
-        else:
-            repeat = "none"
         
-        answer = input("\n\n\t\tCreate task? [Yes:y / No:n]: ").lower()
+        
+        
+        if value == 1:
+            answer = input("\n\n\t\tCreate task? [Yes:y / No:n]: ").lower()
+        else :
+            answer2 = input("\n\n\t\tModify task? [Yes:y / No:n]: ").lower()
+            
         if answer == "y":
-            self.load_data_tasks_personal_or_student(self.accounts[self.email]['id'])
-            self.id_task += 1
-            filename = "user_database/tasks_personal_or_student.txt"
-            data = f"{self.accounts[self.email]['id']}|{self.id_task}|{task_description}|{due_date}|{reminder}|{repeat}\n"
-            self.save_data(filename, data)
-            print("\t\tTask created ✅")
-            time.sleep(2)
+            self.load_the_last_id(self.accounts[self.email]['id'])
+            return task_description, due_date, reminder, repeat
+        
+        if answer2 == "y":
+            return task_description, due_date, reminder, repeat
