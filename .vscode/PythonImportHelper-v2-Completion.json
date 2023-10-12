@@ -96,7 +96,7 @@
         "kind": 6,
         "importPath": "focus_todo.functionalities",
         "description": "focus_todo.functionalities",
-        "peekOfCode": "class Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n        self.task_information = {}\n    def save_data(self, filename, data):\n        with open(filename, 'a') as file:\n            file.write(data)",
+        "peekOfCode": "class Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n        self.task_information = {}\n        self.id_list = 0\n        self.id_list_task = 0\n    def save_data(self, filename, data):",
         "detail": "focus_todo.functionalities",
         "documentation": {}
     },
@@ -105,7 +105,7 @@
         "kind": 2,
         "importPath": "focus_todo.functionalities",
         "description": "focus_todo.functionalities",
-        "peekOfCode": "def clear_console():\n    os.system('cls' if os.name == 'nt' else 'clear')\nclass Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n        self.task_information = {}\n    def save_data(self, filename, data):",
+        "peekOfCode": "def clear_console():\n    os.system('cls' if os.name == 'nt' else 'clear')\nclass Functionalities:\n    def __init__(self, accounts, email):\n        self.email = email\n        self.accounts = accounts\n        self.option = 0\n        self.id_task = 0\n        self.task_information = {}\n        self.id_list = 0",
         "detail": "focus_todo.functionalities",
         "documentation": {}
     },

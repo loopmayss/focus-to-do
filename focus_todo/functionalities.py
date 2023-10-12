@@ -12,23 +12,28 @@ class Functionalities:
         self.option = 0
         self.id_task = 0
         self.task_information = {}
+        
+        self.id_list = 0
+        self.id_list_task = 0
 
     def save_data(self, filename, data):
         with open(filename, 'a') as file:
             file.write(data)
     
-    def create_task(self, value):
-        task_description, due_date, reminder, repeat =  self.my_day_functionality(value)
+    def create_task(self):
+        task_description, due_date, reminder, repeat, flag =  self.my_day_functionality(1)
         
-        self.id_task += 1
-        filename = "user_database/tasks_personal_or_student.txt"
-        important = 0
-        completed = 0
-        
-        data = f"{self.accounts[self.email]['id']}|{self.id_task}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
-        self.save_data(filename, data)
-        print("\t\tTask created ✅")
-        time.sleep(2)
+        if flag:
+            self.load_the_last_id(self.accounts[self.email]['id'])
+            self.id_task += 1
+            filename = "user_database/tasks_personal_or_student.txt"
+            important = 0
+            completed = 0
+            
+            data = f"{self.accounts[self.email]['id']}|{self.id_task}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
+            self.save_data(filename, data)
+            print("\t\tTask created ✅")
+            time.sleep(2)
     
     def load_the_last_id(self, user_id):
         try:
@@ -70,7 +75,7 @@ class Functionalities:
                             'repeat': repeat
                         }
                         
-                        new_description_task, new_due_date, new_reminder, new_repeat = self.my_day_functionality(2)
+                        new_description_task, new_due_date, new_reminder, new_repeat, _ = self.my_day_functionality(2)
                         
                         description_task = new_description_task
                         due_date = new_due_date
@@ -418,6 +423,108 @@ class Functionalities:
 
         except   FileNotFoundError:
             print("\t\tThere are no pending tasks 📖")   
+    
+    
+    
+    def load_the_last_id_list(self, user_id):
+        try:
+            with open("user_database/lists_personal_or_student.txt", 'r') as file:
+                lines = file.readlines()
+                if lines:
+                    user_lines = [line for line in lines if line.startswith(f"{user_id}|")]
+                    
+                    if user_lines:
+                        last_line = user_lines[-1].rstrip("\n")
+                        self.id_list = int(last_line.split("|")[1])
+                    else:
+                        self.id_list = 0
+                else:
+                    self.id_list = 0
+                    
+        except FileNotFoundError:
+            self.id_list = 0
+    
+    def load_the_last_id_list_task(self, list_id):
+        pass
+    
+    def create_list(self):
+        filename = "user_database/lists_personal_or_student.txt"
+        completed = 0
+        id_list_task_temporal = 0
+        
+        clear_console()
+        self.header()
+        print("\n\t\t📜 CREATE NEW LIST\n\n")
+        
+        while True:
+            title_list = input("\t\tList Title: ")
+            
+            if not title_list:
+                print("\t\tPlease enter a list title.")
+            else:
+                self.load_the_last_id_list(self.accounts[self.email]['id'])
+                self.id_list += 1
+                break
+        
+        print(f"\t\t😁 Add at least one task to the {title_list} list ✋")
+        time.sleep(2)
+        
+        while True:
+            task_description, due_date, reminder, repeat, flag =  self.my_day_functionality(1)
+            
+            if flag: 
+                id_list_task_temporal += 1
+                
+                question = input("\n\t\tMark task as important? [Yes: y/ No: n]: ").lower()
+                
+                if question == "y":
+                    important = 1
+                else:
+                    important = 0
+                
+                data = f"{self.accounts[self.email]['id']}|{self.id_list}|{title_list}|{id_list_task_temporal}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
+                self.save_data(filename, data)
+                print("\t\tTask created ✅")
+                time.sleep(1)
+                
+                answer = input("\n\t\tAdd more tasks? [Yes: y/ No: n]: ").lower()
+                
+                if answer != "y":
+                    break
+                
+            else:
+                print(f"\t\t😁 Add at least one task to the {title_list} list ✋")
+                time.sleep(2)      
+    
+    def view_lists(self):
+        clear_console()
+        self.header()
+        print("\n\t\t👀 VIEW LISTS\n\n")
+        
+        try:
+            while True:
+                clear_console()
+                self.header()
+                print("\t\t📑 TASKS")
+                with open("user_database/lists_personal_or_student.txt", "r") as file:
+                    
+                    for line in file:
+                        lists = line.rstrip().split("|")
+                        
+                        if lists[0] == id_user:
+                            list_id, title_list, _, _, _, _, _, _, _ = lists[1:]
+                            
+                        print(f"\t\t{list_id}| 💡 {title_list}\n")
+                        
+                    answer = input("\n\n\t\tSee tasks lists? [Yes: y/ No: n]: ").lower()
+
+                    if answer == "y":
+                        id_select_list = int(input("\n\t\tList number: "))
+                        self.load_the_last_id_list_task(id_select_list)
+                        
+        except   FileNotFoundError:
+            print("\t\tERROR! 📖")  
+        
                
     def header(self):
         print("\n\t\t📒 Focus TO-DO 📒\n")
@@ -455,7 +562,8 @@ class Functionalities:
             elif self.option == 4:
                 self.view_completed_task(self.accounts[self.email]['id'], 2)
             elif self.option == 5:
-                pass
+                self.option = 0
+                self.new_list_menu()
             else:
                 break
    
@@ -467,7 +575,7 @@ class Functionalities:
             print("\t\t1. ➕ Add Task")
             print("\t\t2. 👀 View Tasks")
             print("\t\t3. ✅ View completed tasks")
-            print("\t\t4. 🚶 Exit")
+            print("\t\t4. 🚶 Back")
             print("\t\t-----------------------\n\n")
             
             while True:
@@ -479,13 +587,39 @@ class Functionalities:
                     print("Option invalid :(")
             
             if self.option == 1:
-                self.create_task(1)
+                self.create_task()
             elif self.option == 2:
                 self.load_data_tasks_personal_or_student(self.accounts[self.email]['id'])
             elif self.option == 3:
                 self.view_completed_task(self.accounts[self.email]['id'], 1)
             else:
                 break
+   
+    def new_list_menu(self):
+        while self.option != 3:
+            clear_console()
+            self.header()
+            print("\n\t\t📚 NEW LIST\n\n")
+            print("\t\t1. 📜 CREATE NEW LIST")
+            print("\t\t2. 👀 VIEW LISTS")
+            print("\t\t3. 🚶 BACK")
+            
+            while(True):
+                    self.option = int(input("\t\t⏩ OPTION: "))
+                    
+                    if self.option >= 1 and self.option <= 3:
+                        break
+                    else :
+                        print("\t\tInvalid Option :(\n")
+            
+            if self.option == 1:
+                self.create_list()
+            elif self.option == 2:
+                pass
+            else:
+                break 
+   
+   
    
     def validate_date(self):
         
@@ -728,11 +862,9 @@ class Functionalities:
         if value == 1:
             answer = input("\n\n\t\tCreate task? [Yes:y / No:n]: ").lower()
         else :
-            answer2 = input("\n\n\t\tModify task? [Yes:y / No:n]: ").lower()
+            answer = input("\n\n\t\tModify task? [Yes:y / No:n]: ").lower()
             
         if answer == "y":
-            self.load_the_last_id(self.accounts[self.email]['id'])
-            return task_description, due_date, reminder, repeat
-        
-        if answer2 == "y":
-            return task_description, due_date, reminder, repeat
+            return task_description, due_date, reminder, repeat, True
+        else:
+            return task_description, due_date, reminder, repeat, False
