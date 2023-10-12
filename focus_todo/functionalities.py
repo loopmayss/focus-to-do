@@ -95,6 +95,7 @@ class Functionalities:
     
     def load_data_tasks_personal_or_student(self, id_user):
         continue_view_task = "y"
+        flag = False
         try:
             while continue_view_task == "y":
                 clear_console()
@@ -110,44 +111,73 @@ class Functionalities:
                             current_date = datetime.datetime.now().date()
                             
                             if completed == "0" and due_date == str(current_date):
+                                flag = True
                                 print(f"\t\t{task_id}|  ☐  {task_description} 👈")
                                 
-                                if important == "0":
+                                if due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "1": 
+                                    print("\t\t⭐ Important\n") 
+                                elif due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "0": 
+                                    print("\t\t☆ not Important\n")   
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "1": 
+                                    print(f"\t\t⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "0": 
+                                    print(f"\t\t⭕ {repeat} ▪ ☆ not Important\n")
+                                elif due_date == "none-none-none" and important == "1":   
+                                    print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and important == "0":
+                                        print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭐ Important\n")
+                                
+                                elif important == "0":
                                     print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
                                 elif important == "1":
                                     print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
-                            
-                            print("\n")   
                     
-                    answer = input("\t\tSee task options? [Yes: y/ No: n]: ").lower()
-                    
-                    if answer == "y":
-                        id_select_task = int(input("\n\n\t\tTask number: "))
+                    if flag:      
+                        answer = input("\t\tSee task options? [Yes: y/ No: n]: ").lower()
                         
-                        completed_task = input(f"\t\tMark task {id_select_task} as completed? [Yes: y/ No: n]: ").lower()
-                        if completed_task == "y":
-                            self.modify_task(id_user, id_select_task, 1)
-                        else:
-                                             
-                            important_task = input(f"\t\tMark task {id_select_task} as important? [Yes: y/ No: n]: ").lower()
-                            if important_task == "y":
-                                self.modify_task(id_user, id_select_task, 2)
+                        if answer == "y":
+                            id_select_task = int(input("\n\n\t\tTask number: "))
+                            
+                            completed_task = input(f"\t\tMark task {id_select_task} as completed? [Yes: y/ No: n]: ").lower()
+                            if completed_task == "y":
+                                self.modify_task(id_user, id_select_task, 1)
+                            else:
+                                                
+                                important_task = input(f"\t\tMark task {id_select_task} as important? [Yes: y/ No: n]: ").lower()
+                                if important_task == "y":
+                                    self.modify_task(id_user, id_select_task, 2)
+                                    
                                 
+                                modify_task_option = input(f"\t\tModify task {id_select_task}? [Yes: y/ No: n]: ").lower()
+                                if modify_task_option == "y":
+                                    self.modify_task(id_user, id_select_task, 3)
+
+                            continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+                        else:
+                            continue_view_task = "n"
                             
-                            modify_task_option = input(f"\t\tModify task {id_select_task}? [Yes: y/ No: n]: ").lower()
-                            if modify_task_option == "y":
-                                self.modify_task(id_user, id_select_task, 3)
-                            
-                        continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
-                        
                     else:
-                        continue_view_task = "n"
-                        
-        except   FileNotFoundError:
+                        print("\t\tThere are no pending tasks 📖")
+                        continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+                    
+        except FileNotFoundError:
             print("\t\tThere are no pending tasks 📖")     
             
-    def view_completed_task(self, id_user):
+    def view_completed_task(self, id_user, type):
         continue_view_task = "y"
+        flag = False
         
         try:
             while continue_view_task == "y":
@@ -158,37 +188,102 @@ class Functionalities:
                 with open("user_database/tasks_personal_or_student.txt", "r") as file:
                     for line in file:
                         user_id, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")  
+                        current_date = datetime.datetime.now().date()
                         
                         if  user_id == str(id_user):
-                            if completed == "1" :
+                            if completed == "1" and due_date == str(current_date) and type == 1:
+                                flag = True
                                 print(f"\t\t{task_id}|  ✅  {description_task} 👈")
                                     
-                                if important == "0":
-                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ")
+                                if due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "1": 
+                                    print("\t\t⭐ Important\n") 
+                                elif due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "0": 
+                                    print("\t\t☆ not Important\n")   
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "1": 
+                                    print(f"\t\t⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "0": 
+                                    print(f"\t\t⭕ {repeat} ▪ ☆ not Important\n")
+                                elif due_date == "none-none-none" and important == "1":   
+                                    print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and important == "0":
+                                        print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭐ Important\n")
+                                
+                                elif important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
                                 elif important == "1":
-                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
-                                
-                                print("\n")
-                                
-                    answer = input("\t\tUnmark tasks as completed? [Yes: y/ No: n]: ").lower()  
-                        
-                    if answer == "y":
-                        id_select_task = int(input("\n\n\t\tTask number: "))
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
                             
-                        completed_task = input(f"\t\tMark task {id_select_task} as not completed? [Yes: y/ No: n]: ").lower()
-                        if completed_task == "y":
-                            self.modify_task(id_user, id_select_task, 4)
-                            print("\t\tUnchecked tasks ✔")
-                        continue_view_task = input("\n\n\t\tContinue seeing completed tasks? [Yes: y/ No: n]: ").lower()
+                            elif completed == "1":
+                                flag = True
+                                print(f"\t\t{task_id}|  ✅  {description_task} 👈")
+                                    
+                                if due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "1": 
+                                    print("\t\t⭐ Important\n") 
+                                elif due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "0": 
+                                    print("\t\t☆ not Important\n")   
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "1": 
+                                    print(f"\t\t⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "0": 
+                                    print(f"\t\t⭕ {repeat} ▪ ☆ not Important\n")
+                                elif due_date == "none-none-none" and important == "1":   
+                                    print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and important == "0":
+                                        print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭐ Important\n")
+                                
+                                elif important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+
+                    if flag:            
+                        answer = input("\t\tUnmark tasks as completed? [Yes: y/ No: n]: ").lower()  
+                            
+                        if answer == "y":
+                            id_select_task = int(input("\n\n\t\tTask number: "))
+                                
+                            completed_task = input(f"\t\tMark task {id_select_task} as not completed? [Yes: y/ No: n]: ").lower()
+                            if completed_task == "y":
+                                self.modify_task(id_user, id_select_task, 4)
+                                print("\t\tUnchecked tasks ✔")
+                            continue_view_task = input("\n\n\t\tContinue seeing completed tasks? [Yes: y/ No: n]: ").lower()
+                            flag = False
+                        else:
+                            continue_view_task = "n"
+
                     else:
-                        continue_view_task = "n"
+                        print("\t\tThere are no tasks completed 📖")
+                        continue_view_task = input("\n\n\t\tContinue seeing completed tasks? [Yes: y/ No: n]: ").lower()
         
         except   FileNotFoundError:
             print("\t\tThere are no tasks completed 📖")    
         
     def view_important_task(self, id_user):
         continue_view_task = "y"
-        
+        flag = False
         try:
             while continue_view_task == "y":
                 clear_console()
@@ -201,29 +296,50 @@ class Functionalities:
                         
                         if  user_id == str(id_user):
                             if important == "1" and completed == "0":
+                                flag = True
                                 print(f"\t\t{task_id}|  ☐  {description_task} 👈") 
-                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
+                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
                                 
-                                print("\n")
-                                
-                    answer = input("\t\tRemove importance of  the some task? [Yes: y/ No: n]: ").lower()  
-                        
-                    if answer == "y":
-                        id_select_task = int(input("\n\n\t\tTask number: "))
+                                if due_date == "none-none-none" and reminder == "none, none" and repeat == "none": 
+                                    print("\t\t⭐ Important\n")  
+                                elif due_date == "none-none-none" and reminder == "none, none": 
+                                    print(f"\t\t⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none":   
+                                    print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and repeat == "none":
+                                    print(f"\t\t📆 {due_date} ▪ ⭐ Important\n")
+                                elif reminder == "none, none":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif repeat == "none":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭐ Important\n")
+                                else:
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+
+                    
+                    if flag:        
+                        answer = input("\t\tRemove importance of  the some task? [Yes: y/ No: n]: ").lower()  
                             
-                        important_task = input("\t\tRemove importance? [Yes: y/ No: n]: ").lower()
-                        if important_task == "y":
-                            self.modify_task(id_user, id_select_task, 5)
-                            print("\t\tImportance removed ✔")
-                        continue_view_task = input("\n\n\t\tContinue seeing important tasks? [Yes: y/ No: n]: ").lower()
+                        if answer == "y":
+                            id_select_task = int(input("\n\n\t\tTask number: "))
+                                
+                            important_task = input("\t\tRemove importance? [Yes: y/ No: n]: ").lower()
+                            if important_task == "y":
+                                self.modify_task(id_user, id_select_task, 5)
+                                print("\t\tImportance removed ✔")
+                            continue_view_task = input("\n\n\t\tContinue seeing important tasks? [Yes: y/ No: n]: ").lower()
+                            flag = False
+                        else:
+                            continue_view_task = "n"
                     else:
-                        continue_view_task = "n"
-        
+                        print("\t\tThere are no tasks important 📖")
+                        continue_view_task = input("\n\n\t\tContinue seeing important tasks? [Yes: y/ No: n]: ").lower() 
+                        
         except   FileNotFoundError:
             print("\t\tThere are no tasks important 📖")   
     
-    def view_all_tasks(self):
+    def view_all_tasks(self, id_user):
         continue_view_task = "y"
+        flag = False
         try:
             while continue_view_task == "y":
                 clear_console()
@@ -238,17 +354,68 @@ class Functionalities:
                             task_id, task_description, due_date, reminder, repeat, important, completed = tasks[1:]
                             
                             if completed == "0" :
+                                flag = True
                                 print(f"\t\t{task_id}|  ☐  {task_description} 👈")
                                 
-                                if important == "0":
-                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ")
+                                if due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "1": 
+                                    print("\t\t⭐ Important\n") 
+                                elif due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "0": 
+                                    print("\t\t☆ not Important\n")   
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "1": 
+                                    print(f"\t\t⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "0": 
+                                    print(f"\t\t⭕ {repeat} ▪ ☆ not Important\n")
+                                elif due_date == "none-none-none" and important == "1":   
+                                    print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and important == "0":
+                                        print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭐ Important\n")
+                                
+                                elif important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
                                 elif important == "1":
-                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
-                            
-                            print("\n")   
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
                     
-                    continue_view_task = input("\t\tContinue seeing all pending tasks?? [Yes: y/ No: n]: ").lower()
+                    if flag:      
+                        answer = input("\t\tSee task options? [Yes: y/ No: n]: ").lower()
                         
+                        if answer == "y":
+                            id_select_task = int(input("\n\n\t\tTask number: "))
+                            
+                            completed_task = input(f"\t\tMark task {id_select_task} as completed? [Yes: y/ No: n]: ").lower()
+                            if completed_task == "y":
+                                self.modify_task(id_user, id_select_task, 1)
+                            else:
+                                                
+                                important_task = input(f"\t\tMark task {id_select_task} as important? [Yes: y/ No: n]: ").lower()
+                                if important_task == "y":
+                                    self.modify_task(id_user, id_select_task, 2)
+                                    
+                                
+                                modify_task_option = input(f"\t\tModify task {id_select_task}? [Yes: y/ No: n]: ").lower()
+                                if modify_task_option == "y":
+                                    self.modify_task(id_user, id_select_task, 3)
+
+                            continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+                        else:
+                            continue_view_task = "n"
+                            
+                    else:
+                        print("\t\tThere are no pending tasks 📖")
+                        continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+
+
         except   FileNotFoundError:
             print("\t\tThere are no pending tasks 📖")   
                
@@ -260,19 +427,20 @@ class Functionalities:
         return self.option
 
     def features_menu(self):
-        while self.option != 5:
+        while self.option != 6:
             clear_console()
             self.header()
             print("\t\t1. 🚀 MY DAY")
             print("\t\t2. ⭐️ IMPORTANT")
             print("\t\t3. 📑 TASKS")
-            print("\t\t4. 📚 NEW LIST")
-            print("\t\t5. 🚶 EXIT")
+            print("\t\t4. ✅ View all completed tasks")
+            print("\t\t5. 📚 NEW LIST")
+            print("\t\t6. 🚶 EXIT")
             
             while(True):
                 self.option = int(input("\t\t⏩ OPTION: "))
                 
-                if self.option >= 1 and self.option <= 5:
+                if self.option >= 1 and self.option <= 6:
                     break
                 else :
                     print("\t\tInvalid Option :(\n")
@@ -283,8 +451,12 @@ class Functionalities:
             elif self.option == 2:
                 self.view_important_task(self.accounts[self.email]['id'])
             elif self.option == 3:
-                self.view_all_tasks()
+                self.view_all_tasks(self.accounts[self.email]['id'])
+            elif self.option == 4:
+                self.view_completed_task(self.accounts[self.email]['id'], 2)
             elif self.option == 5:
+                pass
+            else:
                 break
    
     def my_day_menu(self):
@@ -311,7 +483,7 @@ class Functionalities:
             elif self.option == 2:
                 self.load_data_tasks_personal_or_student(self.accounts[self.email]['id'])
             elif self.option == 3:
-                self.view_completed_task(self.accounts[self.email]['id'])
+                self.view_completed_task(self.accounts[self.email]['id'], 1)
             else:
                 break
    
