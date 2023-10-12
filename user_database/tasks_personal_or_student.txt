@@ -1,4 +1,4 @@
 6|1|Study with friends|2023-10-10|Tuesday, 9:00|Weekdays|0|0
-6|2|Read a book|2023-10-16|2023-10-10, 11:30|Monthly|0|0
+6|2|Read a book|2023-10-16|2023-10-10, 11:30|Monthly|1|0
 5|1|Study with sister|2023-10-09|14:59|Weekdays|0|0
-6|3|Study in university|2023-10-12|23:41|Weekdays|0|0
+6|3|Study in university|2023-10-19|Friday, 9:00|Monthly|1|0

@@ -1,7 +1,6 @@
 import datetime
 import os
 import time
-#from main import login
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -51,45 +50,43 @@ class Functionalities:
     
     def modify_task(self, id_user, id_task_user, option_selected):
         tasks = []
-
+        
         with open("user_database/tasks_personal_or_student.txt", "r") as file:
             for line in file:
-                task_data = line.strip().split("|")
-                user_id, task_id = int(task_data[0]), int(task_data[1])
+                user_id, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")
                 
-                if user_id == id_user and task_id == id_task_user:
+                if user_id == str(id_user) and task_id == str(id_task_user):
                     if option_selected == 1:
-                        task_data[7] = "1"
+                        completed = 1
                     elif option_selected == 2:
-                        task_data[6] = "1"
+                        important = 1
                     elif option_selected == 3:
                         self.id_task = id_task_user
-                        
-                        self.task_information[task_id] = {
-                            'task_description': task_data[2],
-                            'due_date': task_data[3],
-                            'reminder': task_data[4],
-                            'repeat': task_data[5]
+
+                        self.task_information[self.id_task] = {
+                            'task_description': description_task,
+                            'due_date': due_date,
+                            'reminder': reminder,
+                            'repeat': repeat
                         }
                         
                         new_description_task, new_due_date, new_reminder, new_repeat = self.my_day_functionality(2)
                         
-                        task_data[2] = new_description_task
-                        task_data[3] = new_due_date
-                        task_data[4] = new_reminder
-                        task_data[5] = new_repeat
+                        description_task = new_description_task
+                        due_date = new_due_date
+                        reminder = new_reminder
+                        repeat = new_repeat
+                        
 
-                    #modified_task = task_data[0] + "|" + task_data[1] + "|" + task_data[2] + "|" + task_data[3] + "|" + task_data[4] + "|" + task_data[5] + "|" + task_data[6] + "|" + task_data[7]
-                    modified_task = f"{task_data[0]}|{task_data[1]}|{task_data[2]}|{task_data[3]}|{task_data[4]}|{task_data[5]}|{task_data[6]}|{task_data[7]}"
+                    modified_task = f"{user_id}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(modified_task)
                 else:
-                    #unmodified_task = task_data[0] + "|" + task_data[1] + "|" + task_data[2] + "|" + task_data[3] + "|" + task_data[4] + "|" + task_data[5] + "|" + task_data[6] + "|" + task_data[7]
-                    unmodified_task = f"{task_data[0]}|{task_data[1]}|{task_data[2]}|{task_data[3]}|{task_data[4]}|{task_data[5]}|{task_data[6]}|{task_data[7]}"
+                    unmodified_task = f"{user_id}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(unmodified_task)
-
+            
         with open("user_database/tasks_personal_or_student.txt", "w") as file:
             for task in tasks:
-                file.write(task + "\n")
+                file.write(task)
     
     def load_data_tasks_personal_or_student(self, id_user):
         continue_view_task = "y"
@@ -105,16 +102,17 @@ class Functionalities:
                         if tasks[0] == id_user:
                             task_id, task_description, due_date, reminder, repeat, important, completed = tasks[1:]
                             
-                            print(f"\t\t{task_id}|  ☐  {task_description} 👈")
-                            
-                            if important == 0 and completed == 0:
-                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ▪ ")
-                            elif important == 1 and completed == 0:
-                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ▪ ")
+                            if completed == "0" :
+                                print(f"\t\t{task_id}|  ☐  {task_description} 👈")
+                                
+                                if important == "0" and completed == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important ")
+                                elif important == "1" and completed == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important ")
                             
                             print("\n")   
                     
-                    answer = input("See task options? [Yes: y/ No: n]: ").lower()
+                    answer = input("\t\tSee task options? [Yes: y/ No: n]: ").lower()
                     
                     if answer == "y":
                         id_select_task = int(input("\n\n\t\tTask number: "))
@@ -122,18 +120,19 @@ class Functionalities:
                         completed_task = input(f"\t\tMark task {id_select_task} as completed? [Yes: y/ No: n]: ").lower()
                         if completed_task == "y":
                             self.modify_task(id_user, id_select_task, 1)
-                        
-                        
-                        important_task = input(f"\t\tMark task {id_select_task} as important? [Yes: y/ No: n]: ").lower()
-                        if important_task == "y":
-                            self.modify_task(id_user, id_select_task, 2)
+                        else:
+                                             
+                            important_task = input(f"\t\tMark task {id_select_task} as important? [Yes: y/ No: n]: ").lower()
+                            if important_task == "y":
+                                self.modify_task(id_user, id_select_task, 2)
+                                
                             
-                        
-                        modify_task_option = input(f"\t\tModify task {id_select_task}? [Yes: y/ No: n]: ").lower()
-                        if modify_task_option == "y":
-                            self.modify_task(id_user, id_select_task, 3)
-                        
+                            modify_task_option = input(f"\t\tModify task {id_select_task}? [Yes: y/ No: n]: ").lower()
+                            if modify_task_option == "y":
+                                self.modify_task(id_user, id_select_task, 3)
+                            
                         continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+                        
                     else:
                         continue_view_task = "n"
                         
@@ -373,8 +372,9 @@ class Functionalities:
                 
                 if not task_description:
                     task_description = unmodified_task_description
-                
-       
+                    break
+                else:
+                    break
        
         if value == 1:
             answer = input("\t\tAdd due date? [Yes:y / No:n]: ").lower()

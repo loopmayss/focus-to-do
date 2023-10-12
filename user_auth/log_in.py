@@ -93,7 +93,7 @@ class LogIn:
                         print("\n\n")
                         print(f"\t\t😀 WELCOME, {accounts[email]['name']} {accounts[email]['lastname']} ✅\n")
                         print("\t\t👉 Enjoy organizing your tasks with Focus To-Do ⏩⏩⏩⏩ ✌")
-                        time.sleep(7)
+                        time.sleep(5)
                         
                         clear_console()
                         functionalities = Functionalities(accounts, email)
@@ -112,7 +112,7 @@ class LogIn:
                         print("\n\n")
                         print(f"\t\t😀 WELCOME, {accounts[email]['name']} {accounts[email]['lastname']} ✅\n")
                         print("\t\t👉 Enjoy organizing your tasks with Focus To-Do ⏩⏩⏩⏩ ✌")
-                        time.sleep(7)
+                        time.sleep(5)
                         
                         clear_console()
                         functionalities = Functionalities(accounts, email)
