@@ -1,4 +1,1 @@
-6|1|Project By Python|1|Create class and objects|2023-10-13|20:25|none|1|0
-6|2|Web Design|1|Spring Boot|2023-10-19|Thursday, 9:00|Weekly|0|0
-6|2|Web Design|2|Angular Framework|2023-10-13|20:28|Weekly|1|0
-6|2|Web Design|3|C# dotNet Framework|2023-10-20|2023-10-19, 11:30|Monthly|0|0
+6|1|Project By Python|1|Create main menu|2023-10-13|23:25|none|1|0|Blue Category|python.jpg|Python TODO Project

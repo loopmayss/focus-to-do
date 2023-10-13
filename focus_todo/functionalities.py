@@ -15,6 +15,7 @@ class Functionalities:
         
         self.id_list = 0
         self.id_list_task = 0
+        self.list_task_information = {}
 
     def save_data(self, filename, data):
         with open(filename, 'a') as file:
@@ -444,12 +445,261 @@ class Functionalities:
         except FileNotFoundError:
             self.id_list = 0
     
-    def load_the_last_id_list_task(self, list_id):
-        pass
+    def modify_list_task(self, id_user, id_list_selected, id_task_list, option_selected):
+        tasks = []
+        
+        with open("user_database/lists_personal_or_student.txt", "r") as file:
+            for line in file:
+                user_id, list_id_selected, title_list, task_id, description_task, due_date, reminder, repeat, important, completed, category, file_path, note  = line.rstrip().split("|")
+                
+                if user_id == str(id_user) and list_id_selected == str(id_list_selected) and  task_id == str(id_task_list):
+                    if option_selected == 1:
+                        completed = 1
+                    elif option_selected == 2:
+                        important = 1
+                    elif option_selected == 3:
+                        self.id_list_task = id_task_list
+
+                        self.list_task_information[self.id_list_task] = {
+                            'task_description': description_task,
+                            'due_date': due_date,
+                            'reminder': reminder,
+                            'repeat': repeat
+                        }
+                        
+                        new_description_task, new_due_date, new_reminder, new_repeat, _ = self.my_day_functionality(3)
+                        
+                        description_task = new_description_task
+                        due_date = new_due_date
+                        reminder = new_reminder
+                        repeat = new_repeat
+                        
+                    elif option_selected == 4 :
+                        completed = 0
+                    elif option_selected == 5 :
+                        important = 0
+                    
+                    modified_task = f"{user_id}|{list_id_selected}|{title_list}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
+                    tasks.append(modified_task)
+                    
+                else:
+                    unmodified_task = f"{user_id}|{list_id_selected}|{title_list}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
+                    tasks.append(unmodified_task)
+            
+        with open("user_database/lists_personal_or_student.txt", "w") as file:
+            for task in tasks:
+                file.write(task)
+    
+    def load_the_list_task(self, id_user, list_id):
+        continue_view_task = "y"
+        flag = False
+        count = 0
+        try:
+            while continue_view_task == "y":
+                clear_console()
+                self.header()
+                print("\n\t\t👀 VIEW TASKS LISTS\n\n")
+                with open("user_database/lists_personal_or_student.txt", "r") as file:
+                    
+                    for line in file:
+                        lists = line.rstrip().split("|")
+                        
+                        if lists[0] == str(id_user) and lists[1] == str(list_id):
+                            list_id_selected, title_list, task_id, task_description, due_date, reminder, repeat, important, completed, category, file_path, note = lists[1:]
+                            
+                            if count == 0:
+                                print(f"\t\t🔎 List {list_id_selected}: 📂 {title_list}\n")
+                                
+                                if  category == "none" and file_path == "none" and note == "none":
+                                    print("")
+                                elif category == "none" and note == "none":
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "none" and file_path == "none":
+                                    print(f"\t\tNote: {note}")
+                                elif category == "none":
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Blue Category" and file_path == "none" and note == "none":
+                                    print("\t\t🔵 Blue Category")
+                                elif category == "Blue Category" and file_path == "none":
+                                    print("\t\t🔵 Blue Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Blue Category" and note == "none":
+                                    print("\t\t🔵 Blue Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Blue Category":
+                                    print("\t\t🔵 Blue Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Green Category" and file_path == "none" and note == "none":
+                                    print("\t\t🍏 Green Category")
+                                elif category == "Green Category" and file_path == "none":
+                                    print("\t\t🍏 Green Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Green Category" and note == "none":
+                                    print("\t\t🍏 Green Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Green Category":
+                                    print("\t\t🍏 Green Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Orange Category" and file_path == "none" and note == "none":
+                                    print("\t\t🔶 Orange Category")
+                                elif category == "Orange Category" and file_path == "none":
+                                    print("\t\t🔶 Orange Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Orange Category" and note == "none":
+                                    print("\t\t🔶 Orange Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Orange Category":
+                                    print("\t\t🔶 Orange Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Purple Category" and file_path == "none" and note == "none":
+                                    print("\t\t💜 Purple Category")
+                                elif category == "Purple Category" and file_path == "none":
+                                    print("\t\t💜 Purple Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Purple Category" and note == "none":
+                                    print("\t\t💜 Purple Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Purple Category":
+                                    print("\t\t💜 Purple Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Red Category" and file_path == "none" and note == "none":
+                                    print("\t\t🔴 Red Category")
+                                elif category == "Red Category" and file_path == "none":
+                                    print("\t\t🔴 Red Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Red Category" and note == "none":
+                                    print("\t\t🔴 Red Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Red Category":
+                                    print("\t\t🔴 Red Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                
+                                count += 1
+                                print("\n\n")
+                            
+                            if completed == "0":
+                                flag = True
+                                print(f"\t\t{task_id}|  ☐  {task_description} 👈")
+                                
+                                if due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "1": 
+                                    print("\t\t⭐ Important\n") 
+                                elif due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "0": 
+                                    print("\t\t☆ not Important\n")   
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "1": 
+                                    print(f"\t\t⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "0": 
+                                    print(f"\t\t⭕ {repeat} ▪ ☆ not Important\n")
+                                elif due_date == "none-none-none" and important == "1":   
+                                    print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and important == "0":
+                                        print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭐ Important\n")
+                                
+                                elif important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                    
+                    if flag:      
+                        answer = input("\t\tSee task options? [Yes: y/ No: n]: ").lower()
+                        
+                        if answer == "y":
+                            id_select_task = int(input("\n\n\t\tTask number: "))
+                            
+                            completed_task = input(f"\t\tMark task {id_select_task} as completed? [Yes: y/ No: n]: ").lower()
+                            if completed_task == "y":
+                                self.modify_list_task(id_user, list_id,  id_select_task, 1)
+                            else:
+                                                
+                                important_task = input(f"\t\tMark task {id_select_task} as important? [Yes: y/ No: n]: ").lower()
+                                if important_task == "y":
+                                    self.modify_list_task(id_user, list_id, id_select_task, 2)
+                                    
+                                
+                                modify_task_option = input(f"\t\tModify task {id_select_task}? [Yes: y/ No: n]: ").lower()
+                                if modify_task_option == "y":
+                                    self.modify_list_task(id_user, list_id, id_select_task, 3)
+
+                            continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+                        else:
+                            continue_view_task = "n"
+                            
+                    else:
+                        print("\t\tThere are no pending tasks 📖")
+                        continue_view_task = input("\n\n\t\tKeep seeing the tasks? [Yes: y/ No: n]: ").lower()
+                    
+        except FileNotFoundError:
+            print("\t\tThere are no pending tasks 📖")     
+    
+    def create_task_an_exist_list(self, id_user, id_select_list):
+        filename = "user_database/lists_personal_or_student.txt"
+        completed = 0
+        important = 0
+        
+        clear_console()
+        self.header()
+        print("\n\t\t📘 CREATE TASKS\n\n")
+        time.sleep(2)
+        
+        while True:
+            task_description, due_date, reminder, repeat, flag =  self.my_day_functionality(1)
+            
+            if flag: 
+                #self.id_list_task += 1
+                list_task_id = "0"
+                user_id = ""
+                title_list = ""
+                task_description = ""
+                due_date = ""
+                reminder = ""
+                repeat = ""
+                important = ""
+                completed = ""
+                category = ""
+                file_path = ""
+                note = ""
+                
+                with open("user_database/lists_personal_or_student.txt", "r") as file:
+                    for line in file:
+                        user_id, list_id, title_list, task_id, task_description, due_date, reminder, repeat, important, completed, category, file_path, note  = line.rstrip().split("|")
+
+                        if user_id == str(id_user) and list_id == str(id_select_list):
+                            list_task_id =  task_id
+
+                data = f"{self.accounts[self.email]['id']}|{id_select_list}|{title_list}|{list_task_id}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
+                self.save_data(filename, data)
+                print("\t\tTask created ✅")
+                time.sleep(1)
+                
+                answer = input("\n\t\tAdd more tasks? [Yes: y/ No: n]: ").lower()
+                
+                if answer != "y":
+                    break
+                
+            else:
+                break     
     
     def create_list(self):
         filename = "user_database/lists_personal_or_student.txt"
         completed = 0
+        important = 0
         id_list_task_temporal = 0
         
         clear_console()
@@ -466,7 +716,54 @@ class Functionalities:
                 self.id_list += 1
                 break
         
-        print(f"\t\t😁 Add at least one task to the {title_list} list ✋")
+        question = input("\n\t\tPick a category? [Yes: y/ No: n]: ").lower()
+                
+        if question == "y":
+            print("\t\t1: 🔵 Blue Category")
+            print("\t\t2: 🍏 Green Category")
+            print("\t\t3: 🔶 Orange Category")
+            print("\t\t4: 💜 Purple Category")
+            print("\t\t5: 🔴 Red Category")
+            
+            while True:
+                option_category = int(input("\t\tCategory: "))
+                
+                if option_category == 1:
+                    category = "Blue Category"
+                    break
+                elif option_category == 2:
+                    category = "Green Category"
+                    break
+                elif option_category == 3:
+                    category = "Orange Category"
+                    break
+                elif option_category == 4:
+                    category = "Purple Category"
+                    break
+                elif option_category == 5:
+                    category = "Red Category"
+                    break
+                else: 
+                    print("\t\tOption Invalid :(")
+        else:
+            category = "none"
+                            
+        question = input("\n\t\t\Add a file? [Yes: y/ No: n]: ").lower()
+        
+        if  question == "y":
+            file_path = input("\t\tFile Path: ")
+        else:
+            file_path = "none"
+                         
+        question = input("\n\t\tAdd a note? [Yes: y/ No: n]: ").lower()
+        
+        if question == "y":
+            note = input("\t\tNote: ")        
+        else:
+            note = "none"
+       
+       
+        print(f"\n\n\t\t😁 Add at least one task to the {title_list} list ✋")
         time.sleep(2)
         
         while True:
@@ -474,15 +771,7 @@ class Functionalities:
             
             if flag: 
                 id_list_task_temporal += 1
-                
-                question = input("\n\t\tMark task as important? [Yes: y/ No: n]: ").lower()
-                
-                if question == "y":
-                    important = 1
-                else:
-                    important = 0
-                
-                data = f"{self.accounts[self.email]['id']}|{self.id_list}|{title_list}|{id_list_task_temporal}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
+                data = f"{self.accounts[self.email]['id']}|{self.id_list}|{title_list}|{id_list_task_temporal}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
                 self.save_data(filename, data)
                 print("\t\tTask created ✅")
                 time.sleep(1)
@@ -496,7 +785,7 @@ class Functionalities:
                 print(f"\t\t😁 Add at least one task to the {title_list} list ✋")
                 time.sleep(2)      
     
-    def view_lists(self):
+    def view_lists(self, id_user):
         clear_console()
         self.header()
         print("\n\t\t👀 VIEW LISTS\n\n")
@@ -512,15 +801,26 @@ class Functionalities:
                         lists = line.rstrip().split("|")
                         
                         if lists[0] == id_user:
-                            list_id, title_list, _, _, _, _, _, _, _ = lists[1:]
+                            list_id, title_list, _, _, _, _, _, _, _, _, _, _ = lists[1:]
                             
                         print(f"\t\t{list_id}| 💡 {title_list}\n")
-                        
-                    answer = input("\n\n\t\tSee tasks lists? [Yes: y/ No: n]: ").lower()
+                    
+                    print("\n\n\t\tOPTIONS\n")
+                    print("\t\t1. 👀 See tasks lists")
+                    print("\t\t2. 📘 Create tasks to an existing list")
+                    
+                    answer = int(input("\t\tOPTION: "))
 
-                    if answer == "y":
+                    if answer == 1:
                         id_select_list = int(input("\n\t\tList number: "))
-                        self.load_the_last_id_list_task(id_select_list)
+                        self.load_the_list_task(self.accounts[self.email]['id'], id_select_list)
+                        
+                    elif  answer == 2:
+                        #id_select_list = int(input("\n\t\tList number: "))
+                        #self.create_task_an_exist_list(self.accounts[self.email]['id'], id_select_list)
+                        pass
+                    else:
+                        break
                         
         except   FileNotFoundError:
             print("\t\tERROR! 📖")  
@@ -615,7 +915,7 @@ class Functionalities:
             if self.option == 1:
                 self.create_list()
             elif self.option == 2:
-                pass
+                self.view_lists(self.accounts[self.email]['id'])
             else:
                 break 
    
@@ -783,11 +1083,18 @@ class Functionalities:
         
         if value == 1:
             print("\n\n\t\t➕ Add Task\n\n")
-        else:
+        elif value == 2:
             unmodified_task_description = self.task_information[self.id_task]['task_description']
             unmodified_due_date = self.task_information[self.id_task]['due_date']
             unmodified_reminder = self.task_information[self.id_task]['reminder']
             unmodified_repeat = self.task_information[self.id_task]['repeat']
+            
+            print("\n\n\t\t☝ Modify Task\n\n")
+        elif value == 3:
+            unmodified_task_description = self.list_task_information[self.id_list_task]['task_description']
+            unmodified_due_date = self.list_task_information[self.id_list_task]['due_date']
+            unmodified_reminder = self.list_task_information[self.id_list_task]['reminder']
+            unmodified_repeat = self.list_task_information[self.id_list_task]['repeat']
             
             print("\n\n\t\t☝ Modify Task\n\n")
             
