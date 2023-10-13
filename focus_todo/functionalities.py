@@ -445,12 +445,30 @@ class Functionalities:
         except FileNotFoundError:
             self.id_list = 0
     
+    def load_the_last_id_list_task(self, user_id, id_list_selected):
+        try:
+            with open("user_database/task_list_personal_or_student.txt", 'r') as file:
+                lines = file.readlines()
+                if lines:
+                    user_lines = [line for line in lines if line.startswith(f"{user_id}|{id_list_selected}|")]
+                    
+                    if user_lines:
+                        last_line = user_lines[-1].rstrip("\n")
+                        self.id_list_task = int(last_line.split("|")[2])
+                    else:
+                        self.id_list_task = 0
+                else:
+                    self.id_list_task = 0
+                    
+        except FileNotFoundError:
+            self.id_list_task = 0
+    
     def modify_list_task(self, id_user, id_list_selected, id_task_list, option_selected):
         tasks = []
         
-        with open("user_database/lists_personal_or_student.txt", "r") as file:
+        with open("user_database/task_list_personal_or_student.txt", "r") as file:
             for line in file:
-                user_id, list_id_selected, title_list, task_id, description_task, due_date, reminder, repeat, important, completed, category, file_path, note  = line.rstrip().split("|")
+                user_id, list_id_selected, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")
                 
                 if user_id == str(id_user) and list_id_selected == str(id_list_selected) and  task_id == str(id_task_list):
                     if option_selected == 1:
@@ -479,18 +497,18 @@ class Functionalities:
                     elif option_selected == 5 :
                         important = 0
                     
-                    modified_task = f"{user_id}|{list_id_selected}|{title_list}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
+                    modified_task = f"{user_id}|{list_id_selected}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(modified_task)
                     
                 else:
-                    unmodified_task = f"{user_id}|{list_id_selected}|{title_list}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
+                    unmodified_task = f"{user_id}|{list_id_selected}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(unmodified_task)
             
-        with open("user_database/lists_personal_or_student.txt", "w") as file:
+        with open("user_database/task_list_personal_or_student.txt", "w") as file:
             for task in tasks:
                 file.write(task)
     
-    def load_the_list_task(self, id_user, list_id):
+    def load_the_list_task(self, id_user, list_id, title_list, category, file_path, note):
         continue_view_task = "y"
         flag = False
         count = 0
@@ -499,13 +517,13 @@ class Functionalities:
                 clear_console()
                 self.header()
                 print("\n\t\t👀 VIEW TASKS LISTS\n\n")
-                with open("user_database/lists_personal_or_student.txt", "r") as file:
+                with open("user_database/task_list_personal_or_student.txt", "r") as file:
                     
                     for line in file:
                         lists = line.rstrip().split("|")
                         
                         if lists[0] == str(id_user) and lists[1] == str(list_id):
-                            list_id_selected, title_list, task_id, task_description, due_date, reminder, repeat, important, completed, category, file_path, note = lists[1:]
+                            list_id_selected, task_id, task_description, due_date, reminder, repeat, important, completed = lists[1:]
                             
                             if count == 0:
                                 print(f"\t\t🔎 List {list_id_selected}: 📂 {title_list}\n")
@@ -648,42 +666,101 @@ class Functionalities:
         except FileNotFoundError:
             print("\t\tThere are no pending tasks 📖")     
     
-    def create_task_an_exist_list(self, id_user, id_select_list):
-        filename = "user_database/lists_personal_or_student.txt"
+    def view_completed_task_list(self, id_user, list_id, title_list):
+        continue_view_task = "y"
+        flag = False
+        count = 0
+        try:
+            while continue_view_task == "y":
+                clear_console()
+                self.header()
+                print("\t\t✅ View completed tasks\n\n")
+                
+                with open("user_database/task_list_personal_or_student.txt", "r") as file:
+                    for line in file:
+                        user_id, list_id_selected, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")                          
+                        
+                        if  user_id == str(id_user) and list_id_selected == str(list_id):
+                            
+                            if count == 0:
+                                print(f"\t\t🔎 List {list_id_selected}: 📂 {title_list}\n")
+                                count += 1
+                            
+                            if completed == "1":
+                                flag = True
+                                print(f"\t\t{task_id}|  ✅  {description_task} 👈")
+                                    
+                                if due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "1": 
+                                    print("\t\t⭐ Important\n") 
+                                elif due_date == "none-none-none" and reminder == "none, none" and repeat == "none" and important == "0": 
+                                    print("\t\t☆ not Important\n")   
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "1": 
+                                    print(f"\t\t⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and reminder == "none, none" and important == "0": 
+                                    print(f"\t\t⭕ {repeat} ▪ ☆ not Important\n")
+                                elif due_date == "none-none-none" and important == "1":   
+                                    print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif due_date == "none-none-none" and important == "0":
+                                        print(f"\t\t⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ☆ not Important\n")
+                                elif reminder == "none, none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                elif reminder == "none, none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ☆ not Important\n")
+                                elif repeat == "none" and important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭐ Important\n")
+                                
+                                elif important == "0":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ☆ not Important\n")
+                                elif important == "1":
+                                    print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+
+                    if flag:            
+                        answer = input("\t\tUnmark tasks as completed? [Yes: y/ No: n]: ").lower()  
+                            
+                        if answer == "y":
+                            id_select_task = int(input("\n\n\t\tTask number: "))
+                                
+                            completed_task = input(f"\t\tMark task {id_select_task} as not completed? [Yes: y/ No: n]: ").lower()
+                            if completed_task == "y":
+                                self.modify_list_task(id_user, list_id, id_select_task, 4)
+                                print("\t\tUnchecked tasks ✔")
+                            continue_view_task = input("\n\n\t\tContinue seeing completed tasks? [Yes: y/ No: n]: ").lower()
+                            flag = False
+                        else:
+                            continue_view_task = "n"
+
+                    else:
+                        print("\t\tThere are no tasks completed 📖")
+                        continue_view_task = input("\n\n\t\tContinue seeing completed tasks? [Yes: y/ No: n]: ").lower()
+        
+        except   FileNotFoundError:
+            print("\t\tThere are no tasks completed 📖")   
+    
+    def create_task_an_exist_list(self, id_user, id_select_list, title_list):
+        filename = "user_database/task_list_personal_or_student.txt"
         completed = 0
         important = 0
         
         clear_console()
         self.header()
         print("\n\t\t📘 CREATE TASKS\n\n")
-        time.sleep(2)
+        print(f"\t\t🔎 List {id_select_list}: 📂 {title_list}\n")
+        time.sleep(3)
         
         while True:
             task_description, due_date, reminder, repeat, flag =  self.my_day_functionality(1)
             
             if flag: 
-                #self.id_list_task += 1
-                list_task_id = "0"
-                user_id = ""
-                title_list = ""
-                task_description = ""
-                due_date = ""
-                reminder = ""
-                repeat = ""
-                important = ""
-                completed = ""
-                category = ""
-                file_path = ""
-                note = ""
-                
-                with open("user_database/lists_personal_or_student.txt", "r") as file:
-                    for line in file:
-                        user_id, list_id, title_list, task_id, task_description, due_date, reminder, repeat, important, completed, category, file_path, note  = line.rstrip().split("|")
+                self.load_the_last_id_list_task(id_user, id_select_list)
+                self.id_list_task += 1
 
-                        if user_id == str(id_user) and list_id == str(id_select_list):
-                            list_task_id =  task_id
-
-                data = f"{self.accounts[self.email]['id']}|{id_select_list}|{title_list}|{list_task_id}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
+                data = f"{self.accounts[self.email]['id']}|{id_select_list}|{self.id_list_task}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                 self.save_data(filename, data)
                 print("\t\tTask created ✅")
                 time.sleep(1)
@@ -697,10 +774,10 @@ class Functionalities:
                 break     
     
     def create_list(self):
-        filename = "user_database/lists_personal_or_student.txt"
         completed = 0
         important = 0
         id_list_task_temporal = 0
+        count = 0
         
         clear_console()
         self.header()
@@ -770,9 +847,18 @@ class Functionalities:
             task_description, due_date, reminder, repeat, flag =  self.my_day_functionality(1)
             
             if flag: 
+                
+                if count == 0:
+                    filename = "user_database/lists_personal_or_student.txt"
+                    data = f"{self.accounts[self.email]['id']}|{self.id_list}|{title_list}|{category}|{file_path}|{note}\n"
+                    self.save_data(filename, data)
+                    count += 1
+                
                 id_list_task_temporal += 1
-                data = f"{self.accounts[self.email]['id']}|{self.id_list}|{title_list}|{id_list_task_temporal}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}|{category}|{file_path}|{note}\n"
+                filename = "user_database/task_list_personal_or_student.txt"
+                data = f"{self.accounts[self.email]['id']}|{self.id_list}|{id_list_task_temporal}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                 self.save_data(filename, data)
+                
                 print("\t\tTask created ✅")
                 time.sleep(1)
                 
@@ -786,39 +872,69 @@ class Functionalities:
                 time.sleep(2)      
     
     def view_lists(self, id_user):
-        clear_console()
-        self.header()
-        print("\n\t\t👀 VIEW LISTS\n\n")
-        
         try:
             while True:
                 clear_console()
                 self.header()
-                print("\t\t📑 TASKS")
+                print("\n\t\t👀 VIEW LISTS\n\n")
                 with open("user_database/lists_personal_or_student.txt", "r") as file:
                     
                     for line in file:
                         lists = line.rstrip().split("|")
                         
                         if lists[0] == id_user:
-                            list_id, title_list, _, _, _, _, _, _, _, _, _, _ = lists[1:]
+                            list_id, title_list, category, file_path, note = lists[1:]
                             
                         print(f"\t\t{list_id}| 💡 {title_list}\n")
                     
                     print("\n\n\t\tOPTIONS\n")
                     print("\t\t1. 👀 See tasks lists")
-                    print("\t\t2. 📘 Create tasks to an existing list")
+                    print("\t\t2. ✅ Show completed tasks from lists")
+                    print("\t\t3. 📘 Create tasks to an existing list")
+                    print("\t\t4. 🚶 Back")
                     
-                    answer = int(input("\t\tOPTION: "))
+                    while True:
+                        answer = int(input("\n\t\tOPTION: "))
+
+                        if answer >= 1 and answer <= 4:
+                            break
+                        else:
+                            print("\t\tInvalid option :(")
 
                     if answer == 1:
                         id_select_list = int(input("\n\t\tList number: "))
-                        self.load_the_list_task(self.accounts[self.email]['id'], id_select_list)
+                        
+                        for line in file:
+                            #lists = line.rstrip().split("|")
+                            user_id, list_id_selected, _, _, _, _   = line.rstrip().split("|")
+                        
+                            if  user_id == str(id_user) and list_id_selected == str(id_select_list):
+                                title_list, category, file_path, note = lists[2:]
+                                self.load_the_list_task(self.accounts[self.email]['id'], id_select_list, title_list, category, file_path, note)
+                                break
                         
                     elif  answer == 2:
-                        #id_select_list = int(input("\n\t\tList number: "))
-                        #self.create_task_an_exist_list(self.accounts[self.email]['id'], id_select_list)
-                        pass
+                        id_select_list = int(input("\n\t\tList number: "))
+                        
+                         
+                        for line in file:
+                            lists = line.rstrip().split("|")
+                        
+                            if lists[0] == str(id_user) and  lists[1] == str(id_select_list):
+                                title_list = lists[2:3]
+                                self.view_completed_task_list(self.accounts[self.email]['id'], id_select_list, title_list)
+                                break
+                        
+                    elif answer == 3:
+                        id_select_list = int(input("\n\t\tList number: "))
+                        
+                        for line in file:
+                            lists = line.rstrip().split("|")
+                        
+                            if lists[0] == str(id_user) and  lists[1] == str(id_select_list):
+                                title_list = lists[2:3]
+                                self.create_task_an_exist_list(self.accounts[self.email]['id'], id_select_list, title_list)
+                                break
                     else:
                         break
                         

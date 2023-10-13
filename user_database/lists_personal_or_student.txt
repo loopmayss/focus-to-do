@@ -1,1 +1,2 @@
-6|1|Project By Python|1|Create main menu|2023-10-13|23:25|none|1|0|Blue Category|python.jpg|Python TODO Project
+6|1|Play the game|Purple Category|call_of_duty.png|Call Of Duty Mobile
+6|2|Learn Programming|Blue Category|cplusplus.jpg|Learn POO
