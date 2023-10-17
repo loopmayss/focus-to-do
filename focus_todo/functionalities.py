@@ -13,6 +13,7 @@ class Functionalities:
         self.id_task = 0
         self.task_information = {}
         
+        self.user_list = {}
         self.id_list = 0
         self.id_list_task = 0
         self.list_task_information = {}
@@ -304,7 +305,7 @@ class Functionalities:
                             if important == "1" and completed == "0":
                                 flag = True
                                 print(f"\t\t{task_id}|  ☐  {description_task} 👈") 
-                                print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
+                                # print(f"\t\t📆 {due_date} ▪ ⏰ {reminder} ▪ ⭕ {repeat} ▪ ⭐ Important\n")
                                 
                                 if due_date == "none-none-none" and reminder == "none, none" and repeat == "none": 
                                     print("\t\t⭐ Important\n")  
@@ -508,10 +509,18 @@ class Functionalities:
             for task in tasks:
                 file.write(task)
     
-    def load_the_list_task(self, id_user, list_id, title_list, category, file_path, note):
+    def load_the_list_task(self, id_user, list_id):
         continue_view_task = "y"
         flag = False
         count = 0
+        
+        selected_list = self.user_list[str(list_id)]
+        title_list = selected_list["title_list"]
+        category = selected_list["category"]
+        file_path = selected_list["file_path"]
+        note = selected_list["note"]
+        
+        
         try:
             while continue_view_task == "y":
                 clear_console()
@@ -666,10 +675,17 @@ class Functionalities:
         except FileNotFoundError:
             print("\t\tThere are no pending tasks 📖")     
     
-    def view_completed_task_list(self, id_user, list_id, title_list):
+    def view_completed_task_list(self, id_user, list_id):
         continue_view_task = "y"
         flag = False
         count = 0
+        
+        selected_list = self.user_list[str(list_id)]
+        title_list = selected_list["title_list"]
+        category = selected_list["category"]
+        file_path = selected_list["file_path"]
+        note = selected_list["note"]
+        
         try:
             while continue_view_task == "y":
                 clear_console()
@@ -684,7 +700,79 @@ class Functionalities:
                             
                             if count == 0:
                                 print(f"\t\t🔎 List {list_id_selected}: 📂 {title_list}\n")
+                                
+                                if  category == "none" and file_path == "none" and note == "none":
+                                    print("")
+                                elif category == "none" and note == "none":
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "none" and file_path == "none":
+                                    print(f"\t\tNote: {note}")
+                                elif category == "none":
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Blue Category" and file_path == "none" and note == "none":
+                                    print("\t\t🔵 Blue Category")
+                                elif category == "Blue Category" and file_path == "none":
+                                    print("\t\t🔵 Blue Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Blue Category" and note == "none":
+                                    print("\t\t🔵 Blue Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Blue Category":
+                                    print("\t\t🔵 Blue Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Green Category" and file_path == "none" and note == "none":
+                                    print("\t\t🍏 Green Category")
+                                elif category == "Green Category" and file_path == "none":
+                                    print("\t\t🍏 Green Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Green Category" and note == "none":
+                                    print("\t\t🍏 Green Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Green Category":
+                                    print("\t\t🍏 Green Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Orange Category" and file_path == "none" and note == "none":
+                                    print("\t\t🔶 Orange Category")
+                                elif category == "Orange Category" and file_path == "none":
+                                    print("\t\t🔶 Orange Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Orange Category" and note == "none":
+                                    print("\t\t🔶 Orange Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Orange Category":
+                                    print("\t\t🔶 Orange Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Purple Category" and file_path == "none" and note == "none":
+                                    print("\t\t💜 Purple Category")
+                                elif category == "Purple Category" and file_path == "none":
+                                    print("\t\t💜 Purple Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Purple Category" and note == "none":
+                                    print("\t\t💜 Purple Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Purple Category":
+                                    print("\t\t💜 Purple Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Red Category" and file_path == "none" and note == "none":
+                                    print("\t\t🔴 Red Category")
+                                elif category == "Red Category" and file_path == "none":
+                                    print("\t\t🔴 Red Category")
+                                    print(f"\t\tNote: {note}")
+                                elif category == "Red Category" and note == "none":
+                                    print("\t\t🔴 Red Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                elif category == "Red Category":
+                                    print("\t\t🔴 Red Category")
+                                    print(f'\t\tFile: "{file_path}"')
+                                    print(f"\t\tNote: {note}")
+                                
                                 count += 1
+                                print("\n\n")
                             
                             if completed == "1":
                                 flag = True
@@ -742,10 +830,13 @@ class Functionalities:
         except   FileNotFoundError:
             print("\t\tThere are no tasks completed 📖")   
     
-    def create_task_an_exist_list(self, id_user, id_select_list, title_list):
+    def create_task_an_exist_list(self, id_user, id_select_list):
         filename = "user_database/task_list_personal_or_student.txt"
         completed = 0
         important = 0
+        
+        selected_list = self.user_list[str(id_select_list)]
+        title_list = selected_list["title_list"]
         
         clear_console()
         self.header()
@@ -877,13 +968,19 @@ class Functionalities:
                 clear_console()
                 self.header()
                 print("\n\t\t👀 VIEW LISTS\n\n")
+                
                 with open("user_database/lists_personal_or_student.txt", "r") as file:
                     
                     for line in file:
-                        lists = line.rstrip().split("|")
+                        user_id, list_id, title_list, category, file_path, note = line.rstrip().split("|")
                         
-                        if lists[0] == id_user:
-                            list_id, title_list, category, file_path, note = lists[1:]
+                        if user_id == str(id_user):
+                            self.user_list[list_id] = {
+                                "title_list": title_list,
+                                "category": category,
+                                "file_path": file_path,
+                                "note": note
+                            }
                             
                         print(f"\t\t{list_id}| 💡 {title_list}\n")
                     
@@ -903,38 +1000,14 @@ class Functionalities:
 
                     if answer == 1:
                         id_select_list = int(input("\n\t\tList number: "))
-                        
-                        for line in file:
-                            #lists = line.rstrip().split("|")
-                            user_id, list_id_selected, _, _, _, _   = line.rstrip().split("|")
-                        
-                            if  user_id == str(id_user) and list_id_selected == str(id_select_list):
-                                title_list, category, file_path, note = lists[2:]
-                                self.load_the_list_task(self.accounts[self.email]['id'], id_select_list, title_list, category, file_path, note)
-                                break
+                        self.load_the_list_task(self.accounts[self.email]['id'], id_select_list)
                         
                     elif  answer == 2:
                         id_select_list = int(input("\n\t\tList number: "))
-                        
-                         
-                        for line in file:
-                            lists = line.rstrip().split("|")
-                        
-                            if lists[0] == str(id_user) and  lists[1] == str(id_select_list):
-                                title_list = lists[2:3]
-                                self.view_completed_task_list(self.accounts[self.email]['id'], id_select_list, title_list)
-                                break
-                        
+                        self.view_completed_task_list(self.accounts[self.email]['id'], id_select_list)
                     elif answer == 3:
                         id_select_list = int(input("\n\t\tList number: "))
-                        
-                        for line in file:
-                            lists = line.rstrip().split("|")
-                        
-                            if lists[0] == str(id_user) and  lists[1] == str(id_select_list):
-                                title_list = lists[2:3]
-                                self.create_task_an_exist_list(self.accounts[self.email]['id'], id_select_list, title_list)
-                                break
+                        self.create_task_an_exist_list(self.accounts[self.email]['id'], id_select_list)
                     else:
                         break
                         
