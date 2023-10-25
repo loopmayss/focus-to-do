@@ -1,2 +1,3 @@
 6|1|Play the game|Purple Category|call_of_duty.png|Call Of Duty Mobile
 6|2|Learn Programming|Blue Category|cplusplus.jpg|Learn POO
+7|1|Examen de ingreso|Purple Category|practice.jpg|Estudiar para el ingreso

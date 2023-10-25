@@ -3,3 +3,8 @@
 6|1|2|Play Shutter|2023-10-17|16:23|Weekdays|0|1
 6|1|3|Play Battle Royal|2023-10-18|Wednesday, 9:00|Monthly|0|0
 6|1|4|Play FIFA|2023-10-24|Tuesday, 9:00|none|0|1
+7|1|1|Estudiar Algebra|2023-10-26|Wednesday, 9:00|Weekdays|1|0
+7|1|2|Estudiar trigonometria|2023-11-01|Wednesday, 9:00|Weekdays|0|1
+7|1|3|Estudiar Aritmetica|2023-11-01|none, none|none|0|0
+7|1|4|Estudiar Fisica 1|2023-11-01|none, none|none|0|0
+7|1|5|Estudiar geometria|2023-10-25|Thursday, 9:00|none|0|0

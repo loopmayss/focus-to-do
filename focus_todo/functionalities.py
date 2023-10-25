@@ -974,7 +974,7 @@ class Functionalities:
                     for line in file:
                         user_id, list_id, title_list, category, file_path, note = line.rstrip().split("|")
                         
-                        if user_id == str(id_user):
+                        if int(user_id) == int(id_user):
                             self.user_list[list_id] = {
                                 "title_list": title_list,
                                 "category": category,
@@ -982,7 +982,9 @@ class Functionalities:
                                 "note": note
                             }
                             
-                        print(f"\t\t{list_id}| 💡 {title_list}\n")
+                            print(f"\t\t{list_id}| 💡 {title_list}\n")
+                            
+                        
                     
                     print("\n\n\t\tOPTIONS\n")
                     print("\t\t1. 👀 See tasks lists")
