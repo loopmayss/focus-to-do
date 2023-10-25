@@ -65,6 +65,9 @@ Para usar este sistema de gestión de tareas, sigue estos pasos:
 
 3. En la pantalla principal, elige una de las opciones disponibles para gestionar tus tareas y listas de tareas.
 
+[![menu_tasks.png](https://i.postimg.cc/yYhZPb8x/menu_tasks.png)](https://postimg.cc/kB4GMw8P)
+
+
 4. ¡Comienza a gestionar tus tareas de manera efectiva!
 
 [![tasks.png](https://i.postimg.cc/NF65dKYS/tasks.png)](https://postimg.cc/ZvqbRKWx)
