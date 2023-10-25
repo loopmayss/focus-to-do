@@ -96,7 +96,7 @@ class LogIn:
                         time.sleep(5)
                         
                         clear_console()
-                        functionalities = Functionalities(accounts, email)
+                        functionalities = Functionalities(accounts, email, 3)
                         functionalities.features_menu()
                         
                         if functionalities.get_option() == 5:
@@ -115,7 +115,7 @@ class LogIn:
                         time.sleep(5)
                         
                         clear_console()
-                        functionalities = Functionalities(accounts, email)
+                        functionalities = Functionalities(accounts, email, 1)
                         functionalities.features_menu()
                         
                         if functionalities.get_option() == 5:
@@ -127,7 +127,6 @@ class LogIn:
                                
             elif self.option == 2:
                 register.load_data_user_personal_or_student()
-                register.load_data_user_professional()
                 register.ask_for_information()
                 time.sleep(2)
             else:

@@ -6,7 +6,7 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 class Functionalities:
-    def __init__(self, accounts, email):
+    def __init__(self, accounts, email, account_type):
         self.email = email
         self.accounts = accounts
         self.option = 0
@@ -17,6 +17,8 @@ class Functionalities:
         self.id_list = 0
         self.id_list_task = 0
         self.list_task_information = {}
+        
+        self.account_type = account_type
 
     def save_data(self, filename, data):
         with open(filename, 'a') as file:
@@ -28,7 +30,12 @@ class Functionalities:
         if flag:
             self.load_the_last_id(self.accounts[self.email]['id'])
             self.id_task += 1
-            filename = "user_database/tasks_personal_or_student.txt"
+            
+            if self.account_type == 1:
+                filename = "user_database/tasks_personal_or_student.txt"
+            else:
+                filename = "user_database/tasks_professional.txt"
+                
             important = 0
             completed = 0
             
@@ -38,8 +45,14 @@ class Functionalities:
             time.sleep(2)
     
     def load_the_last_id(self, user_id):
+        if self.account_type == 1:
+            filename = "user_database/tasks_personal_or_student.txt"
+        else:
+            filename = "user_database/tasks_professional.txt"
+        
+        
         try:
-            with open("user_database/tasks_personal_or_student.txt", 'r') as file:
+            with open(filename, 'r') as file:
                 lines = file.readlines()
                 if lines:
                     user_lines = [line for line in lines if line.startswith(f"{user_id}|")]
@@ -58,7 +71,12 @@ class Functionalities:
     def modify_task(self, id_user, id_task_user, option_selected):
         tasks = []
         
-        with open("user_database/tasks_personal_or_student.txt", "r") as file:
+        if self.account_type == 1:
+            filename = "user_database/tasks_personal_or_student.txt"
+        else:
+            filename = "user_database/tasks_professional.txt"
+        
+        with open(filename, "r") as file:
             for line in file:
                 user_id, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")
                 
@@ -96,7 +114,7 @@ class Functionalities:
                     unmodified_task = f"{user_id}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(unmodified_task)
             
-        with open("user_database/tasks_personal_or_student.txt", "w") as file:
+        with open(filename, "w") as file:
             for task in tasks:
                 file.write(task)
     
@@ -108,7 +126,13 @@ class Functionalities:
                 clear_console()
                 self.header()
                 print("\n\t\t👀 View Tasks\n\n")
-                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                
+                if self.account_type == 1:
+                    filename = "user_database/tasks_personal_or_student.txt"
+                else:
+                    filename = "user_database/tasks_professional.txt"
+                
+                with open(filename, "r") as file:
                     
                     for line in file:
                         tasks = line.rstrip().split("|")
@@ -192,7 +216,12 @@ class Functionalities:
                 self.header()
                 print("\t\t✅ View completed tasks\n\n")
                 
-                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                if self.account_type == 1:
+                    filename = "user_database/tasks_personal_or_student.txt"
+                else:
+                    filename = "user_database/tasks_professional.txt"
+                
+                with open(filename, "r") as file:
                     for line in file:
                         user_id, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")  
                         current_date = datetime.datetime.now().date()
@@ -297,7 +326,12 @@ class Functionalities:
                 self.header()
                 print("\t\t⭐️ IMPORTANT")
                 
-                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                if self.account_type == 1:
+                    filename = "user_database/tasks_personal_or_student.txt"
+                else:
+                    filename = "user_database/tasks_professional.txt"
+                
+                with open(filename, "r") as file:
                     for line in file:
                         user_id, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")  
                         
@@ -352,7 +386,13 @@ class Functionalities:
                 clear_console()
                 self.header()
                 print("\t\t📑 TASKS")
-                with open("user_database/tasks_personal_or_student.txt", "r") as file:
+                
+                if self.account_type == 1:
+                    filename = "user_database/tasks_personal_or_student.txt"
+                else:
+                    filename = "user_database/tasks_professional.txt"
+                
+                with open(filename, "r") as file:
                     
                     for line in file:
                         tasks = line.rstrip().split("|")
@@ -429,8 +469,14 @@ class Functionalities:
     
     
     def load_the_last_id_list(self, user_id):
+        
+        if self.account_type == 1:
+            filename = "user_database/lists_personal_or_student.txt"
+        else: 
+            filename = "user_database/lists_professional.txt"
+        
         try:
-            with open("user_database/lists_personal_or_student.txt", 'r') as file:
+            with open(filename, 'r') as file:
                 lines = file.readlines()
                 if lines:
                     user_lines = [line for line in lines if line.startswith(f"{user_id}|")]
@@ -447,8 +493,14 @@ class Functionalities:
             self.id_list = 0
     
     def load_the_last_id_list_task(self, user_id, id_list_selected):
+        
+        if self.account_type == 1:
+            filename = "user_database/task_list_personal_or_student.txt"
+        else: 
+            filename = "user_database/task_list_professional.txt"
+        
         try:
-            with open("user_database/task_list_personal_or_student.txt", 'r') as file:
+            with open(filename, 'r') as file:
                 lines = file.readlines()
                 if lines:
                     user_lines = [line for line in lines if line.startswith(f"{user_id}|{id_list_selected}|")]
@@ -467,7 +519,12 @@ class Functionalities:
     def modify_list_task(self, id_user, id_list_selected, id_task_list, option_selected):
         tasks = []
         
-        with open("user_database/task_list_personal_or_student.txt", "r") as file:
+        if self.account_type == 1:
+            filename = "user_database/task_list_personal_or_student.txt"
+        else: 
+            filename = "user_database/task_list_professional.txt"
+        
+        with open(filename, "r") as file:
             for line in file:
                 user_id, list_id_selected, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")
                 
@@ -505,7 +562,7 @@ class Functionalities:
                     unmodified_task = f"{user_id}|{list_id_selected}|{task_id}|{description_task}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                     tasks.append(unmodified_task)
             
-        with open("user_database/task_list_personal_or_student.txt", "w") as file:
+        with open(filename, "w") as file:
             for task in tasks:
                 file.write(task)
     
@@ -526,7 +583,13 @@ class Functionalities:
                 clear_console()
                 self.header()
                 print("\n\t\t👀 VIEW TASKS LISTS\n\n")
-                with open("user_database/task_list_personal_or_student.txt", "r") as file:
+                
+                if self.account_type == 1:
+                    filename = "user_database/task_list_personal_or_student.txt"
+                else: 
+                    filename = "user_database/task_list_professional.txt"
+                
+                with open(filename, "r") as file:
                     
                     for line in file:
                         lists = line.rstrip().split("|")
@@ -692,7 +755,12 @@ class Functionalities:
                 self.header()
                 print("\t\t✅ View completed tasks\n\n")
                 
-                with open("user_database/task_list_personal_or_student.txt", "r") as file:
+                if self.account_type == 1:
+                    filename = "user_database/task_list_personal_or_student.txt"
+                else: 
+                    filename = "user_database/task_list_professional.txt"
+                
+                with open(filename, "r") as file:
                     for line in file:
                         user_id, list_id_selected, task_id, description_task, due_date, reminder, repeat, important, completed  = line.rstrip().split("|")                          
                         
@@ -831,7 +899,11 @@ class Functionalities:
             print("\t\tThere are no tasks completed 📖")   
     
     def create_task_an_exist_list(self, id_user, id_select_list):
-        filename = "user_database/task_list_personal_or_student.txt"
+        if self.account_type == 1:
+            filename = "user_database/task_list_personal_or_student.txt"
+        else: 
+            filename = "user_database/task_list_professional.txt"
+        
         completed = 0
         important = 0
         
@@ -940,13 +1012,22 @@ class Functionalities:
             if flag: 
                 
                 if count == 0:
-                    filename = "user_database/lists_personal_or_student.txt"
+                    if self.account_type == 1:
+                        filename = "user_database/lists_personal_or_student.txt"
+                    else: 
+                        filename = "user_database/lists_professional.txt"
+                        
                     data = f"{self.accounts[self.email]['id']}|{self.id_list}|{title_list}|{category}|{file_path}|{note}\n"
                     self.save_data(filename, data)
                     count += 1
                 
                 id_list_task_temporal += 1
-                filename = "user_database/task_list_personal_or_student.txt"
+                
+                if self.account_type == 1:
+                    filename = "user_database/task_list_personal_or_student.txt"
+                else: 
+                    filename = "user_database/task_list_professional.txt"
+                
                 data = f"{self.accounts[self.email]['id']}|{self.id_list}|{id_list_task_temporal}|{task_description}|{due_date}|{reminder}|{repeat}|{important}|{completed}\n"
                 self.save_data(filename, data)
                 
@@ -969,7 +1050,12 @@ class Functionalities:
                 self.header()
                 print("\n\t\t👀 VIEW LISTS\n\n")
                 
-                with open("user_database/lists_personal_or_student.txt", "r") as file:
+                if self.account_type == 1:
+                    filename = "user_database/lists_personal_or_student.txt"
+                else: 
+                    filename = "user_database/lists_professional.txt"
+                
+                with open(filename, "r") as file:
                     
                     for line in file:
                         user_id, list_id, title_list, category, file_path, note = line.rstrip().split("|")

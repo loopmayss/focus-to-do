@@ -4,3 +4,4 @@
 4|Jose|Cardenas|jose@bpc.com.pe|d7ad72fcbb91ef1f579be15e1b11dec90529106c90ea1a7deeec373df90686eb|3|BCP|Jefe de Ventas
 5|Miriam|Gonzales|miriam@dev.com.pe|5e33e524dd3fc058a4ad16fce1c84c3b3c68b7097a6954f72e38271e8aba91fa|3|Miriam Development|Web Development
 6|Mauro|Gomez|mauro@dev.com.pe|16a2108f5a3658b9d43653703ac87393b8c6dfa1f5f9529f6342039678e66b57|3|Microsoft|UX/UI Designer
+7|Roxana|Matrix|roxa@enterprise.com.pe|c0afc5ce3245231f279df78536dbbbe872f70e4318fc27cbfd24dd6f7469c777|3|City Bank|Product Manager

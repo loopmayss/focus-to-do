@@ -32,9 +32,9 @@ class Register:
                 lines = file.readlines()
                 if lines:
                     last_line = lines[-1].rstrip("\n")
-                    self.id_proffesional = int(last_line.split("|")[0])
+                    self.id_professional = int(last_line.split("|")[0])
                 else:
-                    self.id_proffesional = 0
+                    self.id_professional = 0
                     
         except FileNotFoundError:
             self.id_proffesional = 0
@@ -129,6 +129,7 @@ class Register:
         company = input("Company: ")
         charge = input("Charge: ")     
         
+        self.load_data_user_professional()
         self.id_professional += 1  
         
         user = Professional(self.id_professional, name, lastname, email, password, account_type, company, charge) 

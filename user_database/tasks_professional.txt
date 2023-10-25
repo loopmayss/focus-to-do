@@ -1,0 +1,3 @@
+7|1|Dirigir al equipo 5|2023-10-25|20:39|none|0|1
+7|2|Asistir a la reunion de proyectos|2023-10-25|20:39|none|1|0
+7|3|Verificar avances de los desarrolladores|2023-11-01|Wednesday, 9:00|Weekly|0|0
