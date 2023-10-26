@@ -18,12 +18,3 @@ class Professional(Account):
 
     def set_charge(self, charge):
         self.charge = charge
-    
-        
-    def __str__ (self):
-        profile = f"PROFILE\n\n{self._name} {self._lastname}\n\Company\Charge\n{self.company}\t{self.charge}\n\nEmail\t\t\tAccount Type\n{self._email}\t{self._account_type}"
-        
-        return profile
-    
-    # def show_projects():
-    #     pass

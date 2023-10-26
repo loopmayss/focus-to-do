@@ -27,26 +27,7 @@ class Account:
     def get_account_type(self):
         return self.account_type
     
-    
-    
-    
-    def set_id(self, id_user):
-        self.id = id_user
-    
-    def set_name(self, name):
-        self.name = name
-    
-    def set_lastname(self, lastname):
-        self.lastname = lastname
-        
-    def set_email(self, email):
-        self.email = email
-    
-    def set_password(self, password):
-        self.password = password
-    
-    def set_account_type(self, account_type):
-        self.account_type = account_type
+
         
 
     

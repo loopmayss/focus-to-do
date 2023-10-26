@@ -1,4 +1,3 @@
-import datetime
 from users.account import Account
 
 class StudentPersonal(Account):
@@ -19,12 +18,3 @@ class StudentPersonal(Account):
     def set_country(self, country):
         self.country = country
         
-    def calculate_age(self):
-        now = datetime.date.today()
-        age = now.year - self.birthdate.year
-        return age
-    
-    def __str__ (self):
-        profile = f"PROFILE\n\n{self._name} {self._lastname}\n\nBirthdate\tAge\n{self.birthdate}\t{self.calculate_age}\n\nEmail\t\t\tAccount Type\n{self._email}\t{self._account_type}"
-        
-        return profile
