@@ -8,3 +8,6 @@
 7|1|3|Estudiar Aritmetica|2023-11-01|none, none|none|0|0
 7|1|4|Estudiar Fisica 1|2023-11-01|none, none|none|0|0
 7|1|5|Estudiar geometria|2023-10-25|Thursday, 9:00|none|0|0
+9|1|1|Aprender tipos de datos en Python|2023-10-25|Thursday, 9:00|Weekly|1|1
+9|1|2|Aprender estructuras repetitivas en Python|2023-11-02|Wednesday, 9:00|none|0|0
+9|1|3|Aprender POO en Python|2023-11-01|Wednesday, 9:00|Weekdays|0|0

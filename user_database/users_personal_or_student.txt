@@ -6,3 +6,4 @@
 6|Luz|Lya|luz@gmail.com|8c154a169e7c76d94cca8bf18aa7305957a3b837714fa9df0ec3559de82a3f11|1|2001-04-12|Peru
 7|Jazmin|Padilla|jazmin@unasam.edu.pe|263225fdecd1939f34b8257ed9e65fbe31e3c9a48d8bcb5b40b0a4466621ebf9|2|2002-06-14|Peru
 8|Lizeth|Atoccsa|lizeth@gmail.com|4c74e7424ba801215ecf0d1c9ab66d18d102460f2a18d8653ec04f4af55a3b41|1|2004-07-12|Peru
+9|Lucas|Merino|lucas@gmail.com|ad1e10c7f2d809520c2191e442ed016ed7507debeaad03d061a97ec69dc2361e|1|2002-08-23|Peru
