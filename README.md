@@ -73,4 +73,12 @@ Para usar este sistema de gestión de tareas, sigue estos pasos:
 [![tasks.png](https://i.postimg.cc/NF65dKYS/tasks.png)](https://postimg.cc/ZvqbRKWx)
 
 
-¡Esperamos que disfrutes el Sistema de Gestión de Tareas en Python!
+
+## Video explicación y demo del proyecto
+
+[![Logotipo.jpg](https://i.postimg.cc/1RcvkZWk/Logotipo.jpg)](https://postimg.cc/Yj0NFTBR)
+
+Link del video explicación: https://youtu.be/1ZCOxLDW64I
+
+
+¡Espero que disfrutes el Sistema de Gestión de Tareas en Python!
