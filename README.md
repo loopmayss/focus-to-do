@@ -1,5 +1,7 @@
 # Sistema de Gestión de Tareas en Python
 
+Hola! soy Claudio Jesús Moreno Rosales (estudiante de Ingeniería de Software) y realicé el siguiente proyecto en python.
+
 [![Python-logo.jpg](https://i.postimg.cc/dVYtWsxc/Python-logo.jpg)](https://postimg.cc/56sVyVJs)
 
 
